@@ -1,0 +1,305 @@
+<!doctype html>
+<html class="no-js">
+<head>
+<php>
+$category=sp_get_term($ctg_id);
+$store = xw_get_store($store_id);
+$mall = array("0"=>"","1"=>"淘宝","2"=>"天猫","3"=>"京东");
+
+$post_keywords .= ','.$mall[$mid].'搭配套餐';
+foreach($price as $pk=>$pv){
+	$total += $pv;
+}
+if(empty($post_title)){
+	$post_title = $meal_name;
+}
+if(empty($post_description)){
+	foreach($goods_name as $gnk=>$gnv){
+		$all_name .= $gnv.'，';
+	}
+	$post_description = '这是'.$meal_name.'折扣套餐，原价本为'.$total.'，而多件套餐价仅'.$meal_price.'，包含宝贝：'.$all_name.'有需要的请收藏购买 -套餐帮，套餐帮你更实惠。';
+}
+</php>  
+  <title>{$post_title} -{$category.name}套餐-{$site_name}</title>
+  <meta name="keywords" content="{$post_keywords}" />
+  <meta name="description" content="{$post_description}">
+  <tc_include file="Public:head" />
+</head>
+<body>
+<tc_include file="Public:nav-logo" />
+<div class="am-container article-fixed">
+	<!-- contents start -->
+	<div class="am-u-lg-12 am-u-sm-12 am-u-md-12 contents">
+		<div class="am-g">
+			<ol class="am-breadcrumb am-breadcrumb-slash am-margin-bottom-0">
+				<li><a href="www.tcbang.cn" class="am-icon-home">首页</a></li>
+				<li><a href="{:leuu('Shop/List/Index',array('id'=>$ctg_id))}">{$category.name}</a></li>
+				<li class="am-active">{$meal_name}</li>
+			</ol>
+		</div>
+		<div class="am-g panel xw-border-shadow good-content">
+			<h1>{$meal_name}</h1>
+			<php>$baoyou = array("0"=>"","1"=>"包邮");</php>
+			<div class="div-border"></div>
+			<div class="good-main">
+				<div class="pin-panel g-content">
+					<div class="picture-frame">
+						<img src="{$img[0]}_430x430.jpg" class="am-img-responsive" data-src="{$img[0]}_430x430.jpg" />
+					</div>
+					<div class="am-thumbnail-caption g-price">
+						<p class="am-text-center">单价：￥<b>{$price[0]}</b>　<span class="am-badge am-radius xw-badge-default">{$baoyou[$kuaidi[0]]}</span></p>
+					</div>
+					<div class="am-thumbnail-caption good-bg-gray">
+						<h4 class="am-text-sm"><a class="xw-text-link" href="__CONTROLLER__/link?code={$url[0]|base64_encode}" target="_blank">{$goods_name[0]}</a></h4>
+					</div>
+				</div>
+			</div>
+			<div class="am-hide-md-down good-add">
+				<div class="pin-panel">+</div>
+			</div>
+			<php>$length=count($goods_name);</php>
+			<div class="good-other">
+				<span class="o-title">再加 <b>￥{$meal_price-$price[0]}</b>，即可购得：</span>
+				<div class="o-content">
+					<ol>
+						<for start="1" end="$length">
+						<li>
+							<div class="picture-frame">
+								<img src="{$img[$i]}_430x430.jpg" class="am-img-responsive" data-src="{$img[$i]}_430x430.jpg" />
+							</div>
+							<div class="am-thumbnail-caption g-price">
+								<p>单价：￥<b>{$price[$i]}</b>　<span class="am-badge am-radius xw-badge-default">{$baoyou[$kuaidi[$i]]}</span></p>
+							</div>
+							<div class="am-thumbnail-caption good-bg-gray">
+								<h4 class="am-text-sm"><a class="xw-text-link" href="__CONTROLLER__/link?code={$url[$i]|base64_encode}" target="_blank">{$goods_name[$i]}</a></h4>
+							</div>
+						</li>
+						<php> /*$total=$price[0]; $total += $price[$i];*/</php>
+						</for>
+						
+					</ol>
+				</div>
+			</div>
+			<div class="good-meal">
+				<div class="pin-panel">
+					<php>$m_price = explode(".",$meal_price);</php>
+					<div class="gm-top">
+						<b class="am-link-muted">套装价：</b><em class="item-price-em am-text-danger"><b class="am-text-lg">￥</b><b>{$m_price[0]}.</b><i class="am-text-xl">{$m_price[1]}</i></em><br>
+						<span>原总价：￥<del style="">{$total}</del></span><br>
+						<span>立节省：￥<b>{$total-$meal_price}</b></span>
+					</div>
+					<div class="gm-middle">
+						<h3><i class="am-icon-file-text-o"></i> 套餐介绍：</h3>
+						<p>
+							{$post_content}
+						</p>
+					</div>
+					<div class="gm-middle">
+						<h3><i class="am-icon-tags"></i> 备注：</h3>
+						<p>
+							<php>$remark = explode(" ",$remark);</php>
+							<foreach name="remark" item="rm" key="k">
+								<span class="am-badge am-radius xw-badge-default">{$remark[$k]}</span> 
+							</foreach>
+							<br>
+						</p>
+					</div>
+					<div class="gm-bottom">
+						<div class="am-btn-group">
+							<a href="__CONTROLLER__/link?code={$url_meal|base64_encode}" target="_blank" class="am-btn am-btn-success am-radius">购买套装[淘宝]</a>
+							<a href="{:U('user/favorite/do_favorite',array('id'=>$good_id))}" class="am-btn am-btn-default am-radius J_favorite_btn" data-title="{$post_title}" data-url="{:leuu('Shop/article/index',array('id'=>$good_id))}" data-key="{:sp_get_favorite_key('goods',$good_id)}">收藏</a>
+						</div>
+					</div>
+					<div class="gm-bottom gm-footer">
+						<span class="am-fl"><i class="am-icon-clock-o"></i> 时间：{$post_modified}</span>
+						<span class="am-fr"><i class="am-icon-eye"></i> 浏览：<b style="color:#34495E;">{$post_hits}</b></span>
+						<div class="am-cf"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="am-g at-other">
+			<div class="am-u-sm-12 am-u-md-9 at-other-left">
+				<div class="at-store xw-border-shadow">
+					<h3 class="border-left-green am-text-sm">
+						<a href="" class="am-icon-btn am-success am-icon-user"></a> <b>店铺:</b>　{$store['sto_name']|default="呀！商品店铺没找到"}　<em>[{$mall[$mid]}]卖家</em>
+						<b class="b-right"><i class="am-icon-line-chart"></i> 店铺评级： <span class="xw-text-green">{$store['sto_score']}</span></b>
+					</h3>
+				</div>
+				<div class="at-like xw-border-shadow">
+					<h3 class="border-left-green am-text-default xw-text-gray">
+						<i class="am-icon-check"></i> 猜你喜欢：
+					</h3>
+				
+				<php>
+				$key_array = explode(' ',$post_keywords);
+				$userdata = array('0'=>'%','1'=>'%');
+				array_walk($key_array,'xw_callback_array_valueadd',array('0'=>'%','1'=>'%'));
+				$map['post_keywords'] = array('like',$key_array,'OR');
+				$map['post_status'] = 1;
+				$map['good_id'] = array('neq',$good_id);
+				$guess_goods = sp_sql_goods("field:good_id,mid,sex_id,goods_name,price,meal_price,img,kuaidi,meal_kuaidi,post_hits;order:post_hits desc,post_date desc;limit:3;",$map);
+				
+/*信息处理*/
+foreach($guess_goods as $key=>$val){
+	$guess_goods[$key]['goods_name'] = explode("|**|",$val['goods_name']);
+	array_pop($val['goods_name']);
+	$guess_goods[$key]['img'] = explode("|**|",$val['img']);
+	array_pop($val['img']);
+	
+	$guess_goods[$key]['price'] = json_decode($val['price']);
+	$guess_goods[$key]['kuaidi'] = json_decode($val['kuaidi']);
+}
+/*处理结束*/
+				</php>
+				<foreach name="guess_goods" item="gp">
+				<div class="am-u-sm-6 am-u-md-4">
+					<div class="am-margin-top-sm">
+						<a href="{:leuu('Shop/article/index',array('id'=>$gd['good_id']))}" class="am-link-muted">
+							<div class="am-text-truncate at-good-item">
+								<img src="{$gd['img'][0]}_200x200.jpg" class="am-img-responsive" alt="{$gd['goods_name'][0]}" />
+								{$gd['goods_name'][0]}
+							</div>
+							<div class="am-text-truncate at-good-item">
+								<img src="{$gd['img'][1]}_200x200.jpg" class="am-img-responsive" alt="{$gd['goods_name'][1]}" />
+								{$gd['goods_name'][1]}
+								</div>
+						</a>
+						<div class="at-good-price">
+							<p class="price-a1">
+								<span class="am-badge am-radius xw-badge-default">￥{$gd['price'][0]}</span>+<span class="am-badge am-radius xw-badge-default">￥{$gd['price'][1]}</span><br>
+								立省:￥{$gd['price'][0]+$gd['price'][1]-$gd['meal_price']}
+							</p>
+							<p class="price-a2">
+								<span class="am-text-xs">套装价：</span><br>
+								￥ <b class="am-text-warning">{$gd['meal_price']}</b>
+							</p>
+							<div class="am-cf"></div>
+						</div>
+						<div  class="at-good-remark am-cf">
+							<span class="am-fl"><i class="am-icon-eye"></i> 浏览：<b>{$gd['post_hits']}</b></span>
+							<span class="am-fr">[ <a href="{:leuu('Shop/article/index',array('id'=>$gd['good_id']))}">详情</a> ]</span>
+						</div>
+						<div class="am-cf"></div>
+					</div>
+				</div>
+				</foreach>
+				<div class="am-cf"></div>
+				<div class="relates">
+				<php>
+				$top_posts = sp_sql_posts("field:tid,object_id,post_title;order:post_hits desc,post_date desc;limit:6;");
+				</php>
+					<ul>
+						<foreach  name="top_posts" item="gp">
+						<php>
+							$smeta=json_decode($gp['smeta'], true);
+						</php>
+						<if condition="($smeta['outlink'] eq '')">
+							<li><i class="am-icon-minus"></i><a href="{:leuu('portal/article/index',array('id'=>$gp['tid']))}">{$gp.post_title}</a></li>
+						<else/>
+							<li><i class="am-icon-minus"></i><a href="{:leuu('portal/article/link',array('id'=>$gp['id'],'code'=>$smeta['outlink']))}">{$gp.post_title}</a></li>
+						</if>
+						</foreach>
+					</ul>
+				</div>
+				</div>
+				{:Comments("posts",$object_id)}
+			</div>
+			<div class="am-u-sm-12 am-u-md-3 am-padding-horizontal-0">
+				<div class="sidebar xw-border-shadow">
+					<div class="social">
+						<div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a></div>
+						<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"32"},"share":{},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["weixin","tsina","qzone","tqq","sqq"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+					</div>
+				</div>
+				<div class="at-top xw-border-shadow">
+					<h3 class="border-left-green am-text-default xw-text-gray">
+						<i class="am-icon-bullhorn"></i> 人气套装：
+					</h3>
+					<div class="content">
+<php>
+$at_where['good_id'] = array('not in',$good_id);
+$at_where['goods_count'] = 2;
+$at_where['g_status'] = 1;
+$hot_goods=sp_sql_goods("field:good_id,mid,sex_id,goods_name,price,meal_price,img,kuaidi,meal_kuaidi,post_hits;order:post_hits desc;limit:3;",$at_where); 
+/*信息处理*/
+foreach($hot_goods as $key=>$val){
+	$hot_goods[$key]['goods_name'] = explode("|**|",$val['goods_name']);
+	array_pop($val['goods_name']);
+	$hot_goods[$key]['img'] = explode("|**|",$val['img']);
+	array_pop($val['img']);
+	
+	$hot_goods[$key]['price'] = json_decode($val['price']);
+	$hot_goods[$key]['kuaidi'] = json_decode($val['kuaidi']);
+}
+/*处理结束*/
+$mall = array("0"=>"","1"=>"淘宝","2"=>"天猫","3"=>"京东");
+</php>
+						<div class="xw-line-div"></div>
+						<foreach name="hot_goods" item="gd">
+						<div class="am-margin-top-sm">
+							<a href="{:leuu('Shop/article/index',array('id'=>$gd['good_id']))}" class="am-link-muted">
+								<div class="am-text-truncate at-good-item">
+									<img src="{$gd['img'][0]}_150x150.jpg" class="am-img-responsive" alt="{$gd['goods_name'][0]}" />
+									{$gd['goods_name'][0]}
+								</div>
+								<div class="am-text-truncate at-good-item">
+									<img src="{$gd['img'][1]}_150x150.jpg" class="am-img-responsive" alt="{$gd['goods_name'][1]}" />
+									{$gd['goods_name'][1]}
+									</div>
+							</a>
+							<div class="at-good-price">
+								<p class="price-a1">
+									<span class="am-badge am-radius xw-badge-default">￥{$gd['price'][0]}</span>+<span class="am-badge am-radius xw-badge-default">￥{$gd['price'][1]}</span><br>
+									立省:￥{$gd['price'][0]+$gd['price'][1]-$gd['meal_price']}
+								</p>
+								<p class="price-a2">
+									<span class="am-text-xs">套装价：</span><br>
+									￥ <b class="am-text-warning">{$gd['meal_price']}</b>
+								</p>
+								<div class="am-cf"></div>
+							</div>
+							<div  class="at-good-remark am-cf">
+								<span class="am-fl"><i class="am-icon-eye"></i> 浏览：<b>{$gd['post_hits']}</b></span>
+								<span class="am-fr">[ <a href="{:leuu('Shop/article/index',array('id'=>$gd['good_id']))}">详情</a> ]</span>
+							</div>
+							<div class="am-cf"></div>
+						</div>
+						</foreach>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+	
+</div>
+
+<tc_include file="Public:footer"/>
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<tc_include file="Public:scripts"/>
+<script src="__TMPL__Public/js/jquery.pin.min.js"></script>
+<script src="__TMPL__Public/js/jquery.zoomtoo.min.js"></script>
+	<script>
+		$(function() {
+			$(".picture-frame").zoomToo({
+				magnify: 1
+			});
+		});
+	</script>
+
+<script>
+    $(".pin-panel").pin({
+		containerSelector: ".panel", 
+		minWidth: 940
+	});
+</script>
+
+<!--<![endif]-->
+<!--[if lte IE 8 ]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<![endif]-->
+{:hook('footer_end')}
+</body>
+</html>

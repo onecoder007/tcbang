@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>{$site_name}</title>
+<meta name="keywords" content="{$site_seo_keywords}" />
+<meta name="description" content="{$site_seo_description}">
+<meta name="author" content="套餐帮">
+<tc_include file="Public:head" />
+<style>
+.user-container {max-width:1200px;}
+.user-list li a{color:#333;}
+</style>
+</head>
+<body>
+<tc_include file="Public:nav-logo" />
+	<div class="am-container user-container">
+		<div class="am-g">
+			<div class="am-u-sm-3">
+				<tc_include file="Public:usernav"/>
+			</div>
+			<div class="am-u-sm-9">
+				<section class="am-panel am-panel-default">
+					<header class="am-panel-hd">
+						<h3 class="am-panel-title"><a href="#one" data-toggle="tab"><i class="am-icon-list-alt"></i> 个人中心</a></h3>
+					</header>
+					<div class="am-panel-bd">
+						<div class="am-u-sm-2">
+							<img src="__TMPL__/Public/images/headicon_128.png" class=""/>
+						</div>
+						<div class="am-u-sm-5">
+							<table class="am-table am-table-hover">
+								<tbody>
+									<tr>
+										<td>昵称</td>
+										<td>{$user_nicename|default='未填写'}</td>
+									</tr>
+									<tr>
+										<td>性别</td>
+										<td><php>
+                                   			$sexs=array("0"=>"保密","1"=>"男","2"=>"女");
+                                   			
+                                   			</php>
+                                   			{$sexs[$sex]}
+										</td>
+									</tr>
+									<tr>
+										<td>生日</td>
+										<td>{$birthday|default='未填写'}</td>
+									</tr>
+									<tr>
+										<td>个人签名</td>
+										<td>{$signature|default='未填写'}</td>
+									</tr>
+									<tr>
+										<td></td>
+										<td><a href="{:U('user/profile/edit')}" type="submit" class="am-btn am-btn-primary">编辑</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="am-cf"></div>
+					</div>
+				</section>
+			</div>
+		</div>
+	</div>
+	
+	<tc_include file="Public:footer" />
+	<tc_include file="Public:scripts" />
+</body>
+</html>

@@ -1,0 +1,32 @@
+{:hook('body_start')}
+<div class="top">
+<div class="am-container xw-container">
+	<div class="am-g">
+		<div class="am-fr am-text-sm top-user">
+			<if>
+			<a href="{:u('user/login/index')}" class="xw-login">登录</a> | <a href="{:u('user/register/index')}" class="xw-register">免费注册</a> | <a href="{:u('user/center/index')}">个人中心</a> | <a href="{:u('user/favorite/index')}">我的收藏</a> | <a href="#">网站反馈</a>
+			</if>
+		</div>
+	</div>
+	<div class="am-g">
+		<div class="am-u-sm-12 am-u-md-5">
+			<h1 class="top-logo"><a href="__ROOT__" class="logoimg" title="套餐帮首页">套餐帮</a></h1>
+		</div>
+		<div class="am-u-md-7 am-show-md-up top-formdiv">
+			<form class="am-form-inline" role="form" action="{:U('Shop/search/index')}" method="post">
+				<div class="am-form-group">
+					<input type="text" class="am-form-field top-input" name="keyword[]" placeholder="商品1">
+				</div>
+				<div class="am-form-group">
+					<input type="text" class="am-form-field top-input" name="keyword[]" placeholder="商品1">
+				</div>
+				<button type="submit" class="am-btn am-btn-default top-btn am-btn-lg">搜索套餐</button>
+			</form>
+			<p class="am-margin-vertical-sm"><i class="am-icon-mars-double"></i> 优惠电商套餐折扣全在这里 <span class="am-badge xw-bg-rgba">淘宝</span> <span class="am-badge xw-bg-rgba">天猫</span> <span class="am-badge xw-bg-rgba">京东</span> ...</p>
+		</div>
+		<div class="am-u-sm-12 am-show-sm-only">
+			<p class="am-margin-vertical-sm"><i class="am-icon-mars-double"></i> 优惠电商套餐折扣全在这里 <span class="am-badge xw-bg-rgba">淘宝</span> <span class="am-badge xw-bg-rgba">天猫</span> <span class="am-badge xw-bg-rgba">京东</span> ...</p>
+		</div>
+	</div>
+</div>
+</div>

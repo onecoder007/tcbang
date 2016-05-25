@@ -1,0 +1,145 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <title>{$name} {$seo_title} {$site_name}</title>
+  <meta name="keywords" content="{$seo_keywords}" />
+  <meta name="description" content="{$seo_description}">
+  <tc_include file="Public:head" />
+  <link rel="stylesheet" href="__TMPL__Public/css/content.css">
+
+</head>
+<body>
+
+<tc_include file="Public:top" />
+
+<!--
+	作者：hanuser2008@163.com
+	时间：2015-06-07
+	描述：导航样式
+-->
+<tc_include file="Public:nav" />
+
+<div class="am-container xw-content-fixed">
+	
+	<!-- contents start -->
+	<div class="am-u-lg-9 am-u-sm-12 am-u-md-9">
+		
+		<header class="archive-header">
+			<h1 class="am-margin-bottom-sm"><i class="am-icon-folder-open"></i> 
+			{$name}
+			
+			<div class="archive-header-info">
+				<p class="am-margin-bottom-sm">{$description}</p>
+			</div>
+			</h1>
+		</header>
+		<php>
+			$lists = sp_sql_posts_paged("cid:$cat_id;order:post_date DESC;",5);
+		</php>
+		<volist name="lists['posts']" id="vo">
+		<php>
+			$smeta=json_decode($vo['smeta'], true);
+		</php>
+				
+		<article class="excerpt">
+			<header><h2><a target="_blank" href="{:leuu('article/index',array('id'=>$vo['tid']))}" title="{$vo.post_title}">{$vo.post_title} </a></h2> </header>
+			<div class="am-g">
+				<if condition="($smeta['thumb'] eq '')">
+				<div class="am-u-sm-12 am-padding-bottom-sm">
+				<else/>
+				<div class="am-u-sm-3 focus"><a target="_blank" href="{:leuu('article/index',array('id'=>$vo['tid']))}"><img class="am-img-responsive" src="{:sp_get_asset_upload_path($smeta['thumb'])}" alt="【美图集】夏天，是看风景的季节"></a></div>
+				<div class="am-u-sm-9 am-padding-bottom-sm">
+				</if>
+					<span class="note"> {$vo.post_excerpt|msubstr=0,256}...</span>
+					
+				</div>
+				<p class="auth-span am-fr"> 
+					<span class="muted"><i class="am-icon-clock-o"></i> {$vo.post_date|substr=0,10}</span> 
+					<span class="muted"><i class="am-icon-eye"></i> <a target="_blank" href="javascript:;">{$vo.post_hits}浏览</a></span> 
+					<span class="muted"><i class="am-icon-comments-o"></i> <a target="_blank" href="#">{$vo.comment_count}评论</a></span> 
+					<span class="muted"><a href="{:U('article/do_like',array('id'=>$vo['object_id']))}" class="J_count_btn"><i class="am-icon-heart-o"></i><span class="count">{$vo.post_like}</span>喜欢</a></span>
+					<span class="muted"><a href="{:U('user/favorite/do_favorite',array('id'=>$vo['object_id']))}" class="J_favorite_btn" data-title="{$vo.post_title}" data-url="{:U('portal/article/index',array('id'=>$vo['tid']))}" data-key="{:sp_get_favorite_key('posts',$vo['object_id'])}"><i class="am-icon-star-o"></i> 收藏</a></span>
+				</p>
+			</div>
+		</article>
+		</volist>
+		
+		<div class="pagination-div" style="background:#FFF; padding:1px 0">
+			<ul class="am-pagination am-pagination-centered">
+				{$lists['page']}
+			</ul>
+		</div>
+		
+	</div>
+	
+	<div class="am-u-lg-3 am-u-sm-12 am-u-md-3">
+		<div class="sidebar xw-border-shadow">
+			<div class="social">
+				<div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a></div>
+				<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"32"},"share":{},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["weixin","tsina","qzone","tqq","sqq"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+			</div>
+		</div>
+		
+		<div class="sidebar am-padding-xs xw-border-shadow">
+				<form action="{:U('portal/search/index')}" method="post">
+				<div class="am-input-group">
+					<input type="text" class="am-form-field" name="keyword" value="{:I('get.keyword')}" placeholder="这里搜索文章">
+					<span class="am-input-group-btn">
+						<button class="am-btn am-btn-default" type="submit"><span class="am-icon-search"></span></button>
+					</span>
+				</div>
+				</form>
+		</div>
+		
+		<div class="sidebar d_postlist xw-border-shadow">
+			<div class="s-title">
+				<h2>热门文章</h2>
+			</div>
+			<php>
+				$hot_articles=sp_sql_posts("field:post_title,post_excerpt,tid,smeta,post_date,post_hits;order:post_hits desc;limit:5;"); 
+			</php>
+			<ul class="nopic">
+				<foreach name="hot_articles" item="vo">
+					<php>$top=$key<3?"top3":"";</php>
+					<li><a href="{:leuu('article/index',array('id'=>$vo['tid']))}" title="{$vo.post_title}"><span class="text"><i class="am-badge am-radius am-badge-warning">{$key+1}</i> {$vo.post_title}</span><span class="muted">{$vo.post_date|substr=0,10}</span><span class="muted">{$vo.post_hits}浏览</span></a></li>
+				</foreach>
+			</ul>
+		</div>
+	</div>
+	
+</div>
+<tc_include file="Public:footer"/>
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<tc_include file="Public:scripts"/>
+<script type="text/javascript" src="__TMPL__Public/js/masonry.pkgd.min.js" ></script>
+
+<!--	描述：瀑布流jQuery 代码	-->
+<script>
+$('.grid').masonry({
+  // options
+  itemSelector: '.grid-item',
+  columnWidth: 0,
+  percentPosition: true
+});
+</script>
+<script>
+$(function(){
+	$.post("/ffyinyue/index.php?g=user&m=index&a=is_login",{},function(data){
+		if(data.status==1){
+			$(".usertop .xw-login").text(data.user.user_nicename!=""?"你好，"+data.user.user_nicename:data.user.user_login);
+			$(".usertop .xw-login").attr("href","{:u('user/center/index')}");
+			$(".usertop .xw-register").attr("href","{:u('user/index/logout')}").text("退出登录");
+		}
+	});
+})
+</script>
+
+
+<!--<![endif]-->
+<!--[if lte IE 8 ]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<![endif]-->
+{:hook('footer_end')}
+</body>
+</html>

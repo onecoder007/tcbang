@@ -1,0 +1,59 @@
+	<!--
+       	作者：hanuser2008@163.com
+       	时间：2015-04-12
+       	描述：slidebar start
+     -->
+     <div class="am-u-lg-2 am-show-lg-only slidebar">
+	 <div class="pin">
+		<div class="slidebar-top slidetop-height">
+			<ul class="am-avg-sm-1 am-text-center">
+				<li>
+					<h2 class="xw-text-white xw-clean-margin">套餐帮</h2>
+				</li>
+				<li>
+					<h3 class="xw-text-white xw-clean-margin">Tcbang.cn</h3>
+				</li>
+			</ul>
+		</div>
+		
+<php>
+$slide_terms=sp_get_terms("field:term_id,name,description,seo_title;limit:0,8;order:path asc,listorder desc;where:term_id>0 and parent=0;");
+
+$slide_category=sp_get_terms("field:ctg_id,name,logo,url;order:ctg_id asc,listorder asc;where:parent=0;datatable:Category;");
+
+</php>
+		
+		<div class="slidebar-2">
+			<ul class="am-avg-sm-2 am-text-center xw-li-space xw-link-muted">
+				<li><a href="__ROOT__">首页</a></li>
+				<foreach name="slide_terms" item="vo">
+				<li><a href="{:leuu('Portal/list/index',array('id'=>$vo['term_id']))}">{$vo['name']}</a></li>
+				</foreach>
+			</ul>
+		</div>
+		<div class="slidebar-2">
+			<ul class="am-avg-sm-2 am-text-center xw-li-space xw-link-muted">
+				<foreach name="slide_category" item="cg">
+				<li><a href="{:leuu('Shop/list/index',array('id'=>$cg['ctg_id']))}"><span class="{$cg['logo']}"></span> {$cg['name']}</a></li>
+				</foreach>
+			</ul>
+		</div>
+		<div class="slidebar-bottom">
+			<ul class="am-avg-sm-1 am-text-center">
+				<form action="{:U('Shop/search/index')}" role="form" method="post">
+					<li>
+						<input type="text" name="keyword" class="am-form-field am-input-sm" placeholder="搜索宝贝">
+					</li>
+					<li>
+						<button type="submit" class="am-btn am-btn-block am-btn-default xw-btn-default"><i class="am-icon-search"></i> 搜索</button>
+					</li>
+				</form>
+			</ul>
+			<ul class="am-avg-sm-1 am-text-center">
+				<li>
+					<img src="__TMPL__Public/images/2code.jpg" alt="套餐帮官方微信二维码" />
+				</li>
+			</ul>
+		</div>
+	</div>
+	</div>

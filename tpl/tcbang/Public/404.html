@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" /> 
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>哎呀…您访问的页面不存在-套餐帮网</title>
+<meta name="description" content="独家汇集【淘宝天猫优惠套餐】,天天更新超值优惠套餐信息,价格更优惠,找搭配套餐折扣,请到套餐帮网" />
+<meta name="keywords" content="淘宝套餐,淘宝套餐哪里找,天猫套餐,套餐帮" />
+<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+
+<style>
+*{margin:0;padding:0}
+body{font-family:"微软雅黑";background:#DAD9D7}
+img{border:none}
+a *{cursor:pointer}
+ul,li{list-style:none}
+table{table-layout:fixed;}
+table tr td{word-break:break-all; word-wrap:break-word;}
+
+a{text-decoration:none;outline:none}
+a:hover{text-decoration:underline}
+.cf:after{content: ".";display: block;height: 0;font-size: 0;clear:both;visibility: hidden;}
+.cf{zoom: 1;clear:both}
+
+.bg{width:100%;background:url("404/01.jpg") no-repeat center top #DAD9D7;position:absolute;top:0;left:0;height:600px;overflow:hidden}
+.cont{margin:0 auto;width:500px;line-height:20px;}
+.c1{height:360px;text-align:center}
+.c1 .img1{margin-top:180px}
+.c1 .img2{margin-top:165px}
+.cont h2{text-align:center;color:#555;font-size:18px;font-weight:normal;height:35px}
+.c2{height:35px;text-align:center}
+.c2 a{display:inline-block;margin:0 4px;font-size:14px;height:23px;color:#626262;padding-top:1px;text-decoration:none;text-align:left}
+.c2 a:hover{color:#626262;text-decoration:none;}
+.c2 a.home{width:66px;background:url("404/02.png");padding-left:30px}
+.c2 a.home:hover{background:url("404/02.png") 0 -24px}
+.c2 a.home:active{background:url("404/02.png") 0 -48px}
+.c2 a.re{width:66px;background:url("404/03.png");padding-left:30px}
+.c2 a.re:hover{background:url("404/03.png") 0 -24px}
+.c2 a.re:active{background:url("404/03.png") 0 -48px}
+.c2 a.sr{width:153px;background:url("404/04.png");padding-left:28px}
+.c2 a.sr:hover{background:url("404/04.png") 0 -24px}
+.c2 a.sr:active{background:url("404/04.png") 0 -48px}
+.c3{height:180px;text-align:center;color:#999;font-size:12px}
+#bf{position:absolute;top:269px;left:0;width:100%}
+.bf1{margin:0 auto;width:99px;padding-left:32px}
+.bd{height:600px;overflow:hidden}
+#box{position:absolute;top:165px;left:0;width:100%;text-align:center}
+.bf1{margin:0 auto;width:99px;padding-left:32px}
+</style>
+
+</head>
+<body>
+<div class="bg">
+	<div class="cont">
+		<div class="c1"><img src="404/01.png" class="img1" /></div>
+		<h2>哎呀…您访问的页面不存在</h2>
+		<div class="c2">
+        	<a href="http://www.tcbang.cn/activity.html" class="re">搭配头条</a>
+            <a href="http://www.tcbang.cn" class="home">网站首页</a>
+            <a href="http://www.tcbang.cn" class="sr"><span id="totalSecond">3</span>秒后返回首页</a>
+        </div>
+		<div class="c3">
+        	<a href="http://www.tcbang.cn" class="c3">套餐帮</a>
+            提醒您 - 您可能输入了错误的网址，或者该网页已删除或移动
+        </div>
+	</div>
+</div>
+<script language="javascript" type="text/javascript">
+<!--
+    var second = document.getElementById('totalSecond').textContent;
+    if (navigator.appName.indexOf("Explorer") > -1)  //判断是IE浏览器还是Firefox浏览器，采用相应措施取得秒数
+    {
+        second = document.getElementById('totalSecond').innerText;
+    } else
+    {
+        second = document.getElementById('totalSecond').textContent;
+    }
+    setInterval("redirect()", 1000);  //每1秒钟调用redirect()方法一次
+    function redirect()
+    {
+        if (second < 0)
+        {
+            location.href = 'http://www.tcbang.cn';
+        } else
+        {
+            if (navigator.appName.indexOf("Explorer") > -1)
+            {
+                document.getElementById('totalSecond').innerText = second--;
+            } else
+            {
+                document.getElementById('totalSecond').textContent = second--;
+            }
+        }
+    }
+-->
+</script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>添加url自动采集页面</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<!--让IE浏览器运行最新的渲染模式。Bootstrap不支持IE的兼容模式-->
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!-- 引入 Bootstrap -->
+<link href="__ROOT__/statics/simpleboot/bootstrap/css/bootstrap-3.3.5.min.css" rel="stylesheet">
+<!-- HTML5 Shim 和 Respond.js 用于让 IE8 支持 HTML5元素和媒体查询 -->
+<!-- 注意： 如果通过 file://  引入 Respond.js 文件，则该文件无法起效果 -->
+<!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+<![endif]-->
+<style>
+body {font-family:"微软雅黑";}
+</style>
+</head>
+<body>
+<form class="form-inline" action="{:U('Shop/AdminGoods/iadd_post')}" method="post">
+<div class="container">
+	<div class="panel panel-default">
+		<button type="button" class="close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		<div class="panel-heading"><span class="badge">采集 - 1</span> <small> url必须输入 <b style="color:red;">爱淘宝</b> 页面,且不支持 <b style="color:red;">链接转换工具</b> 转换后的url</small></div>
+		<div class="panel-body">
+			<div class="col-md-2">
+				<select class="form-control" name="cj1[ctg_id]" style="width:100%;">
+					{$taxonomys}
+				</select>
+				<div style="padding-top:3px;">
+				<label class="radio-inline">
+					<input type="radio" name="cj1[sexid]" value="0" checked> 全
+				</label>
+				<label class="radio-inline">
+					<input type="radio" name="cj1[sexid]" value="1"> 男
+				</label>
+				<label class="radio-inline">
+					<input type="radio" name="cj1[sexid]" value="2"> 女
+				</label><br>
+				<label class="radio-inline">
+					<input type="radio" name="cj1[sexid]" value="3"> 情侣
+				</label>
+				</div>
+			</div>
+			<div class="col-md-2">
+				<input class="form-control" class="good-url" style="width:100%;" name="cj1[goodurl][]" placeholder="商品url">
+				<input class="form-control" class="good-url" style="width:100%;" name="cj1[goodurl][]" placeholder="商品url">
+				<a class="badge pull-right" id="goodInputAdd"><span class="glyphicon glyphicon-plus"></span></a>
+			</div>
+			<div class="col-md-4">
+				<input class="form-control" style="max-width:167px;" name="cj1[mealname]" placeholder="套餐名称">
+				<input class="form-control" style="max-width:167px;" name="cj1[mealprice]" placeholder="套餐价格"><br>
+				<input class="form-control" style="width:100%;" name="cj1[mealurl]" placeholder="套餐url">
+			</div>
+			<div class="col-md-4">
+				<input class="form-control" style="max-width:167px;" name="cj1[keywords]" placeholder="SEO关键字">
+				<input class="form-control" style="max-width:167px;" name="cj1[description]" placeholder="SEO描述"><br>
+				<input class="form-control" style="width:100%;" name="cj1[content]" placeholder="内容">
+			</div>
+		</div>
+	</div>
+	<div class="btn-group pull-right" style="" role="group">
+		<button type="button" id="panelAdd" class="btn btn-default">加一个</button>
+		<button type="submit" class="btn btn-success" style="min-width:300px;">提交</button>
+	</div>
+</div>
+</form>
+
+<!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
+<script src="__ROOT__/statics/js/jquery.js"></script>
+<!-- 包括所有已编译的插件 -->
+<script src="__ROOT__/statics/simpleboot/bootstrap/js/bootstrap.min.js"></script>
+
+<script>
+$(function () {
+	$(".close").live("click",function(){
+		$(this).parent('.panel').remove();
+	});
+
+	$('#goodInputAdd').live("click", function(){
+		var input_count = $(".panel").length;	
+		$(this).before('<input class="form-control" class="good-url" style="width:100%;" name="cj'+input_count+'[goodurl][]" placeholder="商品url">');
+	});
+	$('#panelAdd').live("click", function(){
+		var p_count = $(".panel").length+1;
+		$(".panel:last").after('<div class="panel panel-default"><button type="button" class="close"><span aria-hidden="true">&times;</span></button><div class="panel-heading"><span class="badge">采集 - 1</span> <small> url必须输入 <b style="color:red;">爱淘宝</b> 页面,且不支持 <b style="color:red;">链接转换工具</b> 转换后的url</small></div><div class="panel-body"><div class="col-md-2"><select class="form-control" name="cj'+p_count+'[ctg_id]" style="width:100%;">'+"{$taxonomys}"+'</select><div style="padding-top:3px;"><label class="radio-inline"><input type="radio" name="cj'+p_count+'[sexid]" value="0" checked> 全</label><label class="radio-inline"><input type="radio" name="cj'+p_count+'[sexid]" value="1"> 男</label><label class="radio-inline"><input type="radio" name="cj'+p_count+'[sexid]" value="2"> 女</label><br><label class="radio-inline"><input type="radio" name="cj'+p_count+'[sexid]" value="3"> 情侣</label></div></div><div class="col-md-2"><input class="form-control" class="good-url" style="width:100%;" name="cj'+p_count+'[goodurl][]" placeholder="商品url"><input class="form-control" class="good-url" style="width:100%;" name="cj'+p_count+'[goodurl][]" placeholder="商品url"><a class="badge pull-right" id="goodInputAdd"><span class="glyphicon glyphicon-plus"></span></a></div><div class="col-md-4"><input class="form-control" style="max-width:167px;" name="cj'+p_count+'[mealname]" placeholder="套餐名称"><input class="form-control" style="max-width:167px;" name="cj'+p_count+'[mealprice]" placeholder="套餐价格"><br><input class="form-control" style="width:100%;" name="cj'+p_count+'[mealurl]" placeholder="套餐url"></div><div class="col-md-4"><input class="form-control" style="max-width:167px;" name="cj'+p_count+'[keywords]" placeholder="SEO关键字">	<input class="form-control" style="max-width:167px;" name="cj'+p_count+'[description]" placeholder="SEO描述"><br><input class="form-control" style="width:100%;" name="cj'+p_count+'[content]" placeholder="内容"></div></div></div>');
+	});
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,265 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <title>{$site_seo_title}</title>
+  <meta name="keywords" content="{$site_seo_keywords}" />
+  <meta name="description" content="{$site_seo_description}">
+  <tc_include file="Public:head" />
+</head>
+<body>
+<tc_include file="Public:top" />
+<tc_include file="Public:nav" />
+<div class="am-container xw-content-fixed">
+	
+	<tc_include file="Public:slidebar" />
+	
+	<!-- contents start -->
+	<div class="am-u-lg-10 am-u-sm-12 am-u-md-12 contents" id="masonry-parent">
+
+<php>
+$tag = "order:post_date desc,listorder desc;where:post_status=1 AND g_status=1;";
+$where = array();
+$last_goods = sp_goods($tag,$where,99);
+
+/*顺序排列*/
+$last_goods['posts'] = xw_goods_sort($last_goods['posts']);
+
+/*信息处理*/
+foreach($last_goods['posts'] as $key=>$val){
+	$last_goods['posts'][$key]['goods_name'] = explode("|**|",$val['goods_name']);
+	array_pop($last_goods['posts'][$key]['goods_name']);
+	$last_goods['posts'][$key]['img'] = explode("|**|",$val['img']);
+	array_pop($last_goods['posts'][$key]['img']);
+	
+	$last_goods['posts'][$key]['price'] = json_decode($val['price']);
+	$last_goods['posts'][$key]['kuaidi'] = json_decode($val['kuaidi']);
+}
+/*处理结束*/
+
+
+$mall = array("0"=>"","1"=>"淘宝","2"=>"天猫","3"=>"京东");
+
+
+/*取3个文章信息*/
+	$join = "".C('DB_PREFIX').'posts as b on a.object_id =b.id';
+	$join2= "".C('DB_PREFIX').'users as c on b.post_author = c.id';
+	$rs= M("TermRelationships");
+
+	$posts=$rs->alias("a")->join($join)->join($join2)->where('post_status=1 AND istop=1')->order('post_date desc,listorder desc')->limit(3)->select();
+	
+</php>
+		
+		<div class="am-g">
+			<p class="last-p">| 最新信息 <small class="xw-text-remark-color">{$last_goods['posts'][0]['post_date']}已更新</small></p>
+		</div>
+		<php>
+			/*打乱数组*/
+			/*shuffle($last_goods['posts']);*/
+		</php>
+		<div id="masonry">
+		
+			<foreach name="posts" item="at">
+			<div class="grid-item">
+				<div class="grid-item-child">
+					
+					<!--article 开始-->
+			<php>$smeta=json_decode($at['smeta'],true);</php>
+			<div class="item-article am-g">
+			<if condition="($smeta['thumb'] eq '')">
+				<div class="item-at-top">
+					<a href="{:leuu('portal/article/index',array('id'=>$at['tid']))}" target="_blank" class="xw-text-white at-title">
+						<h3 class="xw-bold-md am-text-xl">{$at.post_title} </h3>
+					</a>
+				</div>
+				<div class="item-at-middle am-padding-sm">
+					<p class="am-text-sm">
+						 {$at.post_excerpt|msubstr=0,256}...
+						<br><a href="{:leuu('portal/article/index',array('id'=>$at['tid']))}" target="_blank" class="am-fr am-btn xw-btn-white am-btn-sm">查看详情</a>
+					</p>
+				</div>
+			<else/>
+				<div class="item-at-top am-padding-0" id="item-top-img">
+					<a href="{:leuu('portal/article/index',array('id'=>$at['tid']))}" target="_blank" class="at-title">
+						<img src="{:sp_get_asset_upload_path($smeta['thumb'])}" class="am-img-responsive" alt="{$at.post_title}"/>
+					</a>
+				</div>
+				<div class="item-at-middle am-padding-sm">
+					<h3 class="am-text-sm am-text-lg am-margin-bottom-xs" style="text-align:center;">
+						<a href="{:leuu('portal/article/index',array('id'=>$at['tid']))}" target="_blank" class="xw-text-link">{$at.post_title} </a>
+					</h3>
+					<p style="border-top:1px solid #DBDBDB;" class="am-text-xs am-margin-top-0 am-padding-top-xs">
+						{$at.post_excerpt|msubstr=0,256}...
+						<br><a href="{:leuu('portal/article/index',array('id'=>$at['tid']))}" target="_blank" class="am-fr am-btn xw-btn-white am-btn-sm">查看详情</a>
+					</p>
+				</div>
+			</if>
+				<div class="item-at-bottom am-padding-horizontal-xs">
+				  <div class="item-remark">
+					<div class="am-fl">
+						<a class="am-link-muted am-padding-right-xs am-text-xs">
+							<i class="am-icon-comment"></i> 
+							<span class="">{$at.comment_count}评论</span>
+						</a>
+						<a class="am-link-muted am-padding-right-xs am-text-xs">
+							<i class="am-icon-hand-o-up"></i> 
+							<span class="">{$at.post_hits}浏览</span>
+						</a>
+					</div>
+					<div class="am-fr">
+						<span class="am-text-xs">{$at.post_date|substr=0,10}</span>
+					</div>
+					<div class="am-cf"></div>
+				  </div>
+				</div>
+			</div>
+					<!--article 结束-->
+					
+				</div>
+			</div>
+			</foreach>
+			<php>$i = 0;</php>
+			<foreach name="last_goods['posts']" item="gd">
+				<php>
+					$length=count($gd['goods_name']);
+					$a = $a+1;
+					$r = $a/3;
+				</php>
+
+			<div class="grid-item">
+			  <div class="grid-item-child">
+			  <if condition="$length gt 1"> 
+			  	<div class="am-g">
+					<div>
+					<for start="0" end="$length">
+			  		<div class="am-u-sm-6 am-padding-xs item-img">
+						<div class="hoverimg">
+			  			<a href="{:leuu('Shop/article/index',array('id'=>$gd['good_id']))}" target="_blank">
+							<img src="__TMPL__Public/images/zhanwei.jpg" data-original="{$gd['img'][$i]}_220x220.jpg" class="am-img-responsive lazy imgs" alt="{$gd['goods_name'][$i]}" />
+						</a>
+						</div>
+						<h4 class="item-good" title="{$gd['goods_name'][$i]}"><span class="am-badge am-radius xw-badge-default">￥{$gd['price'][$i]}</span> {$gd['goods_name'][$i]}</h4>
+			  		</div>
+						<php> $gd['total'] += $gd['price'][$i];</php>
+					</for>
+					<div class="am-cf"></div>
+					</div>
+					<if condition="!empty($gd['post_title'])">
+					<h3 class="item-title">
+						<a href="{:leuu('Shop/article/index',array('id'=>$gd['good_id']))}" class="xw-text-link" target="_blank">{$gd['post_title']}</a>
+					</h3>
+					<elseif condition="!empty($gd['meal_name'])"/>
+					<h3 class="item-title">
+						<a href="{:leuu('Shop/article/index',array('id'=>$gd['good_id']))}" class="xw-text-link" target="_blank">{$gd['meal_name']}</a>
+					</h3>
+					</if>
+					
+					<php>$price = explode(".",$gd['meal_price']);</php>
+					<div class="am-g" style="margin:0; padding:0;">
+			  		<div class="am-u-sm-6 item-price">
+			  			<span class="am-text-sm" style="color: #999;"><em><del>￥{$gd['total']}</del></em> <b>|</b> <u class="am-text-warning">省￥{$gd['total']-$gd['meal_price']}</u></span><br>
+			  			<em class="item-price-em am-text-danger"><b class="am-text-lg">￥</b><b>{$price[0]}.</b><i class="am-text-xl">{$price[1]}</i></em><br>
+			  		</div>
+			  		<div class="am-u-sm-6 am-padding-sm am-btn-group am-btn-group-stacked item-button">
+			  			<a class="am-btn am-btn-default am-btn-sm am-btn-block" target="_blank" href="{:leuu('Shop/article/index',array('id'=>$gd['good_id']))}"><i class="am-icon-paper-plane-o"></i> 详情</a>
+						<a class="J_favorite_btn am-btn am-btn-default xw-btn-default am-btn-sm am-btn-block"  href="{:leuu('user/favorite/do_favorite',array('id'=>$gd['good_id']))}" data-title="{$gd.post_title}" data-url="{:leuu('Shop/article/index',array('id'=>$gd['good_id']))}" data-key="{:sp_get_favorite_key('goods',$gd['good_id'])}"><i class="am-icon-star-half-o"></i> 收藏</a>
+			  		</div>
+					</div>
+			  		<div class="am-u-sm-12 item-remark">
+			  			<div class="am-fl">
+			  				<span class="am-fl"><b style="color: #5DAA21;">{$gd['post_hits']}</b>浏览</span>
+			  			</div>
+			  			<div class="am-fr">
+			  				<div class="icon-div">{$mall[$gd['mid']]} <span class="icon{$gd['mid']}"></span></div>
+			  			</div>
+			  		</div>
+			  	</div>
+			  <else />
+				<div class="am-g">
+					<div>
+					<for start="0" end="$length">
+			  		<div class="am-u-sm-12 am-padding-xs item-img">
+						<div class="hoverimg">
+			  			<a href="#">
+							<img src="__TMPL__Public/images/zhanwei.jpg" data-original="{$gd['img'][$i]}_320x320.jpg" class="am-img-responsive lazy imgs" alt="{$gd['goods_name'][$i]}" />
+						</a>
+						</div>
+						<h4 class="item-good line-clamp" title="{$gd['goods_name'][$i]}"><span class="am-badge am-radius xw-badge-default">￥{$gd['price'][$i]}</span>　{$gd['goods_name'][$i]}</h4>
+			  		</div>
+					</for>
+					<div class="am-cf"></div>
+					</div>
+					
+					<php>$price = explode(".",$gd['price'][0]);</php>
+					<div class="am-g" style="margin:0; padding:0;">
+			  		<div class="am-u-sm-6 item-price">
+			  			<br>
+			  			<em class="item-price-em am-text-danger"><b class="am-text-lg">￥</b><b>{$price[0]}.</b><i class="am-text-xl">{$price[1]}</i></em><br>
+			  		</div>
+			  		<div class="am-u-sm-6 am-padding-sm am-btn-group am-btn-group-stacked item-button">
+			  			<a class="am-btn am-btn-default am-btn-sm am-btn-block" href="{:leuu('Shop/article/index',array('id'=>$gd['id']))}"><i class="am-icon-paper-plane-o"></i> 详情</a>
+						<a class="J_favorite_btn am-btn am-btn-success am-btn-sm am-btn-block" href="{:leuu('user/favorite/do_favorite',array('id'=>$gd['id']))}"><i class="am-icon-star-half-o"></i> 收藏</a>
+			  		</div>
+					</div>
+			  		<div class="am-u-sm-12 item-remark">
+			  			<div class="am-fl">
+			  				<span class="am-fl"><b style="color: #5DAA21;">{$gd['post_hits']}</b>浏览</span>
+			  			</div>
+			  			<div class="am-fr">
+			  				<div class="icon-div">{$mall[$gd['mid']]} <span class="icon{$gd['mid']}"></span></div>
+			  			</div>
+			  		</div>
+			  	</div>
+			  </if>
+			  </div>
+			</div>
+			
+			<if condition="is_int($r)">
+				<div class="grid-item zhanwei100"></div>
+			</if>
+			
+			</foreach>
+			
+			
+			<div class="am-cf"></div>
+			
+			
+			
+			
+		</div>
+	</div>
+	
+</div>
+
+<br><br><br><br><br>
+<tc_include file="Public:footer"/>
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<tc_include file="Public:scripts"/>
+
+<script>
+//获取要定位元素距离浏览器顶部的距离
+var navH = $(".slidebar").offset().top;
+//滚动条事件
+$(window).scroll(function(){
+	//获取滚动条的滑动距离
+	var scroH = $(this).scrollTop();
+	//滚动条的滑动距离大于等于定位元素距离浏览器顶部的距离，就固定，反之就不固定
+	if(scroH>=navH){
+		$(".slidebar-top").removeClass("slidetop-height");
+	}else if(scroH<navH){
+		$(".slidebar-top").addClass("slidetop-height");
+	}
+});
+$(".pin").pin({
+	containerSelector: ".xw-content-fixed", 
+	minWidth: 940
+});
+</script>
+
+<!--<![endif]-->
+<!--[if lte IE 8 ]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<![endif]-->
+{:hook('footer_end')}
+</body>
+</html>

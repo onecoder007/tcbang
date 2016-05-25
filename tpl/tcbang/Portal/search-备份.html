@@ -1,0 +1,217 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <title>文章搜索 {$site_name} </title>
+  <meta name="keywords" content="" />
+  <meta name="description" content="">
+  <tc_include file="Public:head" />
+
+  <style type="text/css">
+/* =Your Generated css 
+|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
+.hoverimg {overflow:hidden;}
+.item-img {overflow:hidden;}
+.grid-item-child img {
+	webkit-transition: all 0.8s ease-in-out;
+  -moz-transition: all 0.8s ease-in-out;
+  -o-transition: all 0.8s ease-in-out;
+  -ms-transition: all 0.8s ease-in-out;
+  transition: all 0.8s ease-in-out;
+}
+.grid-item-child img:hover{
+	  -webkit-transform: scale(1.2) rotate(2deg);
+  -moz-transform: scale(1.2) rotate(2deg);
+  -o-transform: scale(1.2) rotate(2deg);
+  -ms-transform: scale(1.2) rotate(2deg);
+  transform: scale(1.2) rotate(2deg);
+}
+
+/*============================*/
+.archive-header{background-color: #fbfbfb; padding: 5px 20px; margin-bottom: 1px;}
+.archive-header h1 {font-size: 22px;   color: #7a6f6f;   font-weight: normal;}
+
+.archive-header-info{padding-top:1.0rem; color: #666; font-size:13px;}
+
+.excerpt {border-left:2px solid #FFF; background-color: #fff; padding: 20px 15px 20px 20px; margin-bottom: 10px; position: relative; clear: both;}
+.excerpt header {margin: 0 10px 15px 0;}
+.excerpt h2 {display: inline;   font-size: 20px; margin: 0; font-weight: normal; position: relative; top: 1px;   line-height: 25px;}
+.excerpt .focus {text-align: center; position: relative; overflow: hidden;  display: table;}
+.excerpt .focus a {display: table-cell; vertical-align: middle; overflow: hidden; }
+
+.excerpt .note {color: #777; line-height: 24px; margin-bottom: 0; font-size:13px;}
+.excerpt p.auth-span {position: absolute; bottom: 5px; right: 0; margin:0;}
+.excerpt .muted { font-size: 13px; margin-right: 20px;}
+
+.excerpt img {
+  webkit-transition: all 0.8s ease-in-out;
+  -moz-transition: all 0.8s ease-in-out;
+  -o-transition: all 0.8s ease-in-out;
+  -ms-transition: all 0.8s ease-in-out;
+  transition: all 0.8s ease-in-out;
+}
+.excerpt:hover img {
+  -webkit-transform: scale(1.2) rotate(2deg);
+  -moz-transform: scale(1.2) rotate(2deg);
+  -o-transform: scale(1.2) rotate(2deg);
+  -ms-transform: scale(1.2) rotate(2deg);
+  transform: scale(1.2) rotate(2deg);
+}
+.excerpt:hover header h2 a {color:#1ABC9C;}
+.excerpt:hover {border-left:2px solid #1ABC9C;}
+
+.sidebar {margin-bottom: 10px; background-color: #fff;}
+.social {height: 66px; padding: 1.0rem; background-color: #fff;}
+.social a {float: left; width: 45px; height: 45px; margin-right: 6.5px; margin-left: 6.5px; position: relative; color: #fff;}
+
+.s-title {display: block; margin: 10px 0 25px 0; padding:1.0rem 1.0rem 0 1.0rem; border-bottom: 1px dotted #e4e9f0;}
+.s-title h2, .s-title h3, .s-title h4 {display: inline-block; padding-bottom: 5px; margin: 0 0 -2px 0; border-bottom: 2px solid #f90;}
+
+.d_postlist ul { padding: 0 20px 20px;}
+.d_postlist ul li { line-height: 20px;}
+.d_postlist .nopic li a {color:#000;}
+.d_postlist .nopic li a:hover {color:#3498DB;}
+.d_postlist .nopic .text { margin-top: 0; margin: 5px 0 0 10px; display: block; height: 50px;}
+.d_postlist .muted { padding-left: 1.2rem; color: #999; float:right;}
+.d_postlist li a {border-bottom: solid 1px #eee; overflow: hidden; position: relative; display: block; font-size: 14px;}
+
+
+
+/* End of Your Generated css 
+|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
+  </style>
+</head>
+<body>
+
+<tc_include file="Public:top" />
+
+<!--
+	作者：hanuser2008@163.com
+	时间：2015-06-07
+	描述：导航样式
+-->
+<tc_include file="Public:nav" />
+
+<div class="am-container xw-content-fixed">
+	
+	<!-- contents start -->
+	<div class="am-u-lg-9 am-u-sm-12 am-u-md-9">
+		<php>
+			$result=sp_sql_posts_paged_bykeyword($keyword,"",20);
+		</php>
+		<header class="archive-header">
+			<h1 class="am-margin-bottom-sm"><i class="am-icon-search"></i> 
+			{$result['count']}条结果
+			
+			<div class="archive-header-info">
+				<p class="am-margin-bottom-sm">'{$keyword}' 的搜索结果 </p>
+			</div>
+			</h1>
+		</header>
+		
+		<volist name="result['posts']" id="vo">
+		<php>
+			$smeta=json_decode($vo['smeta'], true);
+		</php>
+				
+		<article class="excerpt">
+			<header><h2><a target="_blank" href="{:leuu('article/index',array('id'=>$vo['tid']))}" title="{$vo.post_title}">{$vo.post_title} </a></h2> </header>
+			<div class="am-g">
+				<if condition="($smeta['thumb'] eq '')">
+				<div class="am-u-sm-12 am-padding-bottom-sm">
+				<else/>
+				<div class="am-u-sm-3 focus"><a target="_blank" href="#"><img class="am-img-responsive" src="{:sp_get_asset_upload_path($smeta['thumb'])}" alt="【美图集】夏天，是看风景的季节"></a></div>
+				<div class="am-u-sm-9 am-padding-bottom-sm">
+				</if>
+					<span class="note"> {$vo.post_excerpt|msubstr=0,256}...</span>
+					
+				</div>
+				<p class="auth-span am-fr"> 
+					<span class="muted"><i class="am-icon-clock-o"></i> {$vo.post_date|substr=0,10}</span> 
+					<span class="muted"><i class="am-icon-eye"></i> <a target="_blank" href="javascript:;">{$vo.post_hits}浏览</a></span> 
+					<span class="muted"><i class="am-icon-comments-o"></i> <a target="_blank" href="#">{$vo.comment_count}评论</a></span> 
+					<span class="muted"><a href="{:U('article/do_like',array('id'=>$vo['object_id']))}" class="J_count_btn"><i class="am-icon-heart-o"></i><span class="count">{$vo.post_like}</span>喜欢</a></span>
+					<span class="muted"><a href="{:U('user/favorite/do_favorite',array('id'=>$vo['object_id']))}" class="J_favorite_btn" data-title="{$vo.post_title}" data-url="{:U('portal/article/index',array('id'=>$vo['tid']))}" data-key="{:sp_get_favorite_key('posts',$vo['object_id'])}"><i class="am-icon-star-o"></i> 收藏</a></span>
+				</p>
+			</div>
+		</article>
+		</volist>
+		
+		<div class="pagination-div" style="background:#FFF; padding:1px 0">
+			<ul class="am-pagination am-pagination-centered">
+				{$lists['page']}
+			</ul>
+		</div>
+		
+	</div>
+	
+	<div class="am-u-lg-3 am-u-sm-12 am-u-md-3">
+		<div class="sidebar">
+			<div class="social">
+				<div class="bdsharebuttonbox bdshare-button-style2-32 am-text-middle" data-bd-bind="1439396656225"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a></div>
+				<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"32"},"share":{},"image":{"viewList":["weixin","tsina","qzone","tqq","renren"],"viewText":"分享到：","viewSize":"32"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["weixin","tsina","qzone","tqq","renren"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+			</div>
+		</div>
+		
+		<div class="sidebar am-padding-xs">
+				<form action="{:U('portal/search/index')}" method="post">
+				<div class="am-input-group">
+					<input type="text" class="am-form-field" name="keyword" value="{:I('get.keyword')}" placeholder="这里搜索文章">
+					<span class="am-input-group-btn">
+						<button class="am-btn am-btn-default" type="submit"><span class="am-icon-search"></span></button>
+					</span>
+				</div>
+				</form>
+		</div>
+		
+		<div class="sidebar d_postlist">
+			<div class="s-title">
+				<h2>热门文章</h2>
+			</div>
+			<php>
+				$hot_articles=sp_sql_posts("field:post_title,post_excerpt,tid,smeta,post_date,post_hits;order:post_hits desc;limit:5;"); 
+			</php>
+			<ul class="nopic">
+				<foreach name="hot_articles" item="vo">
+					<php>$top=$key<3?"top3":"";</php>
+					<li><a href="{:leuu('article/index',array('id'=>$vo['tid']))}" title="{$vo.post_title}"><span class="text"><i class="am-badge am-radius am-badge-warning">{$key+1}</i> {$vo.post_title}</span><span class="muted">{$vo.post_date|substr=0,10}</span><span class="muted">{$vo.post_hits}浏览</span></a></li>
+				</foreach>
+			</ul>
+		</div>
+	</div>
+	
+</div>
+<tc_include file="Public:footer"/>
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<tc_include file="Public:scripts"/>
+<script type="text/javascript" src="__TMPL__Public/js/masonry.pkgd.min.js" ></script>
+
+<!--	描述：瀑布流jQuery 代码	-->
+<script>
+$('.grid').masonry({
+  // options
+  itemSelector: '.grid-item',
+  columnWidth: 0,
+  percentPosition: true
+});
+</script>
+<script>
+$(function(){
+	$.post("/ffyinyue/index.php?g=user&m=index&a=is_login",{},function(data){
+		if(data.status==1){
+			$(".usertop .xw-login").text(data.user.user_nicename!=""?"你好，"+data.user.user_nicename:data.user.user_login);
+			$(".usertop .xw-login").attr("href","{:u('user/center/index')}");
+			$(".usertop .xw-register").attr("href","{:u('user/index/logout')}").text("退出登录");
+		}
+	});
+})
+</script>
+
+
+<!--<![endif]-->
+<!--[if lte IE 8 ]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<![endif]-->
+{:hook('footer_end')}
+</body>
+</html>

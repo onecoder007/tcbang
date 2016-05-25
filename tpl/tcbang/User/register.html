@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>{$site_name}</title>
+<meta name="keywords" content="{$site_seo_keywords}" />
+<meta name="description" content="{$site_seo_description}">
+<meta name="author" content="ThinkCMF">
+<tc_include file="Public:head" />
+</head>
+
+<body class="body-white">
+	<tc_include file="Public:nav-logo" />
+
+	<div class="am-g">
+		<div class="am-u-lg-6 am-u-md-8 am-u-sm-centered">
+			
+		<form class="am-form J_ajaxForm am-form-horizontal" action="{:U('user/register/doregister')}" method="post">
+			<fieldset>
+				<legend>用户注册</legend>
+				<div class="am-form-group">
+					<label for="input_username" class="am-u-sm-3 am-form-label">账户	</label>
+					<div class="am-u-sm-9">
+						<input type="text" id="input_username" name="username" class="am-form-field am-radius" placeholder="请输入账户名">
+					</div>
+				</div>
+				<div class="am-form-group">
+					<label for="input_email" class="am-u-sm-3 am-form-label">邮箱	</label>
+					<div class="am-u-sm-9">
+						<input type="text" id="input_email" name="email" class="am-form-field am-radius" placeholder="请输入邮箱">
+					</div>
+				</div>
+				<div class="am-form-group">
+					<label for="input_password" class="am-u-sm-3 am-form-label">密码	</label>
+					<div class="am-u-sm-9">
+						<input type="password" id="input_password" name="password" class="am-form-field am-radius" placeholder="请输入密码">
+					</div>
+				</div>
+				<div class="am-form-group">
+					<label for="input_repassword" class="am-u-sm-3 am-form-label">重复密码	</label>
+					<div class="am-u-sm-9">
+						<input type="password" id="input_repassword" name="repassword" class="am-form-field am-radius" placeholder="请输入重复密码">
+					</div>
+				</div>
+				<div class="am-form-group">
+					<label for="input_verify" class="am-u-sm-3 am-form-label">验证码 </label>
+					<div class="am-u-sm-5">
+						<input type="text" id="input_verify" name="verify" class="am-form-field am-radius" placeholder="请输入验证码">
+					</div>
+					<div class="am-u-sm-4">
+						{:sp_verifycode_img('code_len=4&font_size=15&width=100&height=35&charset=1234567890')}
+					</div>
+				</div>
+				<div class="am-form-group">
+					<label for="input_repassword" class="am-u-sm-3 am-form-label">重复密码	</label>
+					<div class="am-u-sm-9" style="padding-top: .6em;">
+						<label class="checkbox persistent"><input type="checkbox" name="terms" value="1">我同意<a href="#">网站内容服务条款</a></label>
+					</div>
+				</div>
+				<div class="am-form-group">
+					<div class="am-u-sm-9 am-u-sm-offset-3 am-text-sm">
+						<button type="submit" class="am-btn am-btn-success J_ajax_submit_btn" data-wait="1500">确定注册</button>
+					</div>
+				</div>
+				<div class="am-form-group">
+					<div class="am-u-sm-9 am-u-sm-offset-3 am-text-sm">
+						已有账号? <a href="{:U('user/login/index')}">点击此处登录</a>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+		</div>
+	</div>
+<tc_include file="Public:footer" />
+
+<tc_include file="Public:scripts" />
+</body>
+</html>

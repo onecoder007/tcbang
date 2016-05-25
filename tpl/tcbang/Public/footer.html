@@ -1,0 +1,64 @@
+  <div data-am-widget="gotop" class="am-gotop am-gotop-fixed" >
+    <a href="#top" title="回到顶部">
+        <span class="am-gotop-title">回到顶部</span>
+          <i class="am-gotop-icon am-icon-chevron-up"></i>
+    </a>
+  </div>
+
+<br><br><br>
+<!-- Footer
+      ================================================== -->
+{:hook('footer')}
+<div class="footer">
+	<div class="area am-container am-padding-sm">
+		<div class="am-u-sm-6 am-u-md-3">
+			<span><a class="am-icon-btn am-icon-edit"></a><br>关于我们</span>
+			<p class="xw-text-left xw-text-grey am-text-sm">
+				套餐帮 是一家专门收集全网电商套餐的网站。收集来自淘宝，天猫，京东等电商网站的套餐优惠信息。旨在为网友提供优惠又保质的商品信息。
+			</p>
+			<a href="__ROOT__"><img src="__TMPL__Public/images/navlogo.png" class="am-img-responsive am-center" alt="套餐帮"/></a>
+		</div>
+		<div class="am-u-md-3 am-hide-md-down">
+			<span><a class="am-icon-btn am-icon-tags"></a><br>支持网站</span>
+			<p class="xw-text-grey am-text-sm">
+				<img src="__TMPL__Public/images/logo_taobao.png" alt="淘宝套餐" /> 淘宝<br>
+				<img src="__TMPL__Public/images/logo_tmall.png" alt="天猫套餐" /> 天猫<br>
+				<img src="__TMPL__Public/images/logo_jd.png" alt="京东套餐" /> 京东<br>
+				...
+			</p>
+		</div>
+		<div class="am-u-md-2 am-hide-md-down">
+			<span><a class="am-icon-btn am-icon-star-o"></a><br>关注我们</span>
+			<p class="xw-text-grey xw-text-left am-text-sm">
+				<span class="am-icon-qq"></span> 3291695124<br>
+				<span class="am-icon-weixin"></span> tcbang_cn<br>
+				<span class="am-icon-weibo"></span> <a href="http://weibo.com/tcb800" target="_blank">点此进入</a><br>
+			</p>
+		</div>
+		<div class="am-u-sm-6 am-u-md-4">
+			<span><a class="am-icon-btn am-icon-barcode"></a><br>扫二维码</span>
+			<p>
+				<img src="__TMPL__Public/images/2code.jpg" class="am-img-responsive am-center xw-img-border" alt="套餐帮官方返利群"/><br>关注 <b>套餐帮</b> 官方返利群
+			</p>
+		</div>
+		<div class="am-cf"></div>
+		<div class="friend-link am-text-sm xw-text-grey xw-text-center">
+			<php>$links=sp_getlinks();</php>
+			友情链接：
+			<if condition="$links eq ''">暂无</if>
+			<foreach name="links" item="vo">
+				<a href="{$vo.link_url}" target="{$vo.link_target}">{$vo.link_name}</a> | 
+			</foreach>
+		</div>
+	</div>
+	<div class="footer-bottom">
+		<p class="xw-text-center">
+			Copyright © 2015 Tcbang.cn，All Rights Reserved 晋ICP备15004048号 使用本网站即表示接受 <a href="#">套餐帮用户协议</a>。
+			<br>
+			版权所有 <a href="__ROOT__">套餐帮</a> Tcbang.cn
+			<br>
+			<a href="http://webscan.360.cn/index/checkwebsite/url/www.tcbang.cn"><img border="0" style="width:74px; height:27px;" src="http://img.webscan.360.cn/status/pai/hash/e12d0dea59ddff09eec347e3898f0d27" alt="360网站安全"/></a>
+			{$site_tongji}
+		</p>
+	</div>
+</div>

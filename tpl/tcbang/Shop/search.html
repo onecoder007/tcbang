@@ -1,0 +1,258 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <title>{$site_seo_title} {$site_name}</title>
+  <meta name="keywords" content="{$site_seo_keywords}" />
+  <meta name="description" content="{$site_seo_description}">
+  <tc_include file="Public:head" />
+
+  <style type="text/css">
+/* =Your Generated css 
+|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
+.hoverimg {overflow:hidden;}
+.item-img {overflow:hidden;}
+.grid-item-child img {
+	webkit-transition: all 0.8s ease-in-out;
+  -moz-transition: all 0.8s ease-in-out;
+  -o-transition: all 0.8s ease-in-out;
+  -ms-transition: all 0.8s ease-in-out;
+  transition: all 0.8s ease-in-out;
+}
+.grid-item-child img:hover{
+	  -webkit-transform: scale(1.2) rotate(2deg);
+  -moz-transform: scale(1.2) rotate(2deg);
+  -o-transform: scale(1.2) rotate(2deg);
+  -ms-transform: scale(1.2) rotate(2deg);
+  transform: scale(1.2) rotate(2deg);
+}
+
+.line-clamp {
+  overflow : hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+}
+
+
+	.item-at-top { background-color: #735f87;; text-align:center; max-height:200px; overflow:hidden; padding: 19px 18px 15px 24px;}
+	.item-at-top a {display:block;}
+	#item-top-img {background-color: #FFF;}
+	.at-title:hover {text-decoration:underline;}
+	
+	.item-at-middle {background:#FFF;}
+	
+	.item-at-bottom {background:#FFF; padding-bottom:0.5rem; position:relative;}
+	.item-at-bottom .am-fl{}
+	.item-at-bottom .am-fr{}
+	
+	
+	/*xw*/
+	.xw-text-white {color: #fff !important;}
+	.xw-text-link {color:#333;}
+	.xw-text-link:hover {color:#f3726d;}
+	.xw-text-muted {color: #b6bfc5;}
+	.xw-text_gray {color: slategrey;}
+	.xw-bold-md { font-weight: 600;}
+	.xw-bold {font-weight: bold;}
+	
+/* End of Your Generated css 
+|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
+  </style>
+</head>
+<body>
+
+<tc_include file="Public:top" />
+
+<!--
+	作者：hanuser2008@163.com
+	时间：2015-06-07
+	描述：导航样式
+-->
+<tc_include file="Public:nav" />
+
+<div class="am-container xw-content-fixed">
+	
+	<tc_include file="Public:slidebar" />
+	
+	<!-- contents start -->
+	<div class="am-u-lg-10 am-u-sm-12 am-u-md-12 contents" id="masonry">
+
+<php>
+
+$results = sp_sql_goods_paged_bykeyword($keyword,"",20);
+
+/*信息处理*/
+		for($i=0; $i<$results['count']; $i++){
+			$results['goods'][$i]['goods_name'] = explode("|**|",$results['goods'][$i]['goods_name']);
+			array_pop($results['goods'][$i]['goods_name']);
+			$results['goods'][$i]['url'] = explode("|**|",$results['goods'][$i]['url']);
+			array_pop($results['goods'][$i]['url']);
+			$results['goods'][$i]['img'] = explode("|**|",$results['goods'][$i]['img']);
+			array_pop($results['goods'][$i]['img']);
+			
+			$results['goods'][$i]['price'] = json_decode($results['goods'][$i]['price']);
+			$results['goods'][$i]['kuaidi'] = json_decode($results['goods'][$i]['kuaidi']);
+		}
+/*处理结束*/
+$mall = array("0"=>"","1"=>"淘宝","2"=>"天猫","3"=>"京东");
+
+</php>
+		
+		<div class="am-g">
+			<h2>| 搜索结果： <small>
+			<if condition="(is_array($keyword))">
+			<span class="am-text-success">{$keyword[0]} </span><if condition="($keyword[1] neq '')"> 和 <span class="am-text-success">{$keyword[1]}</span></if>　{$results['count']}条结果</small></h2>
+			<else/>
+			<span class="am-text-success">{$keyword} </span>　{$results['count']}条结果</small></h2>
+			</if>
+		</div>
+		
+		<div class="grid">
+		
+			<foreach name="results['goods']" item="gd">
+				<php>
+					$length=count($gd['goods_name']);
+				</php>
+			<div class="grid-item am-padding-sm">
+			  <div class="grid-item-child">
+			  <if condition="$length gt 1"> 
+			  	<div class="am-g">
+					<div>
+					<for start="0" end="$length">
+			  		<div class="am-u-sm-6 am-padding-xs item-img">
+						<div class="hoverimg">
+			  			<a href="{:leuu('Shop/article/index',array('id'=>$gd['good_id']))}" target="_blank">
+							<img src="{$gd['img'][$i]}_220x220.jpg" class="am-img-responsive" alt="{$gd['goods_name'][$i]}" />
+						</a>
+						</div>
+						<h2 class="item-title" style="font-weight:normal; color:#666; overflow : hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;" title="{$gd['goods_name'][$i]}"><span class="am-badge am-radius" style="background:#FFF; color:#7F8C8D; border:1px solid #7F8C8D;">￥{$gd['price'][$i]}</span> {$gd['goods_name'][$i]}</h2></h2>
+			  		</div>
+						<php> $gd['total'] += $gd['price'][$i];</php>
+					</for>
+					<div class="am-cf"></div>
+					</div>
+					
+					<php>$price = explode(".",$gd['meal_price']);</php>
+					<div class="am-g" style="margin:0; padding:0;">
+			  		<div class="am-u-sm-6 item-price">
+			  			<span class="am-text-sm" style="color: #999;"><em><del>￥{$gd['total']}</del></em> <b>|</b> <u class="am-text-warning">省￥{$gd['total']-$gd['meal_price']}</u></span><br>
+			  			<em class="item-price-em am-text-danger"><b class="am-text-lg">￥</b><b>{$price[0]}.</b><i class="am-text-xl">{$price[1]}</i></em><br>
+			  		</div>
+			  		<div class="am-u-sm-6 am-padding-sm am-btn-group am-btn-group-stacked item-button">
+			  			<a class="am-btn am-btn-default am-btn-sm am-btn-block" target="_blank" href="{:leuu('Shop/article/index',array('id'=>$gd['good_id']))}"><i class="am-icon-paper-plane-o"></i> 详情</a>
+						<a class="J_favorite_btn am-btn am-btn-default xw-btn-default am-btn-sm am-btn-block"  href="{:U('user/favorite/do_favorite',array('id'=>$gd['good_id']))}" data-title="{$gd.post_title}" data-url="{:leuu('Shop/article/index',array('id'=>$gd['good_id']))}" data-key="{:sp_get_favorite_key('goods',$gd['good_id'])}"><i class="am-icon-star-half-o"></i> 收藏</a>
+			  		</div>
+					</div>
+			  		<div class="am-u-sm-12 item-remark">
+			  			<div class="am-fl">
+			  				<span class="am-fl"><b style="color: #5DAA21;">{$gd['post_hits']}</b>浏览</span>
+			  			</div>
+			  			<div class="am-fr">
+			  				<div class="icon-div">{$mall[$gd['mid']]} <span class="icon{$gd['mid']}"></span></div>
+			  			</div>
+			  		</div>
+			  	</div>
+			  <else />
+				<div class="am-g">
+					<div>
+					<for start="0" end="$length">
+			  		<div class="am-u-sm-12 am-padding-xs item-img">
+						<div class="hoverimg">
+			  			<a href="{:leuu('Shop/article/index',array('id'=>$gd['id']))}">
+							<img src="{$gd['img'][$i]}_320x320.jpg" class="am-img-responsive" />
+						</a>
+						</div>
+						<h2 class="item-title line-clamp" title="{$gd['goods_name'][$i]}"><span class="am-badge am-radius" style="background:#FFF; color:#7F8C8D; border:1px solid #7F8C8D;">￥{$gd['price'][$i]}</span>　{$gd['goods_name'][$i]}</h2></h2>
+			  		</div>
+					</for>
+					<div class="am-cf"></div>
+					</div>
+					
+					<php>$price = explode(".",$gd['price'][0]);</php>
+					<div class="am-g" style="margin:0; padding:0;">
+			  		<div class="am-u-sm-6 item-price">
+			  			<br>
+			  			<em class="item-price-em am-text-danger"><b class="am-text-lg">￥</b><b>{$price[0]}.</b><i class="am-text-xl">{$price[1]}</i></em><br>
+			  		</div>
+			  		<div class="am-u-sm-6 am-padding-sm am-btn-group am-btn-group-stacked item-button">
+			  			<a class="am-btn am-btn-default am-btn-sm am-btn-block" href="{:leuu('Shop/article/index',array('id'=>$gd['id']))}"><i class="am-icon-paper-plane-o"></i> 详情</a>
+						<a class="J_favorite_btn am-btn am-btn-success am-btn-sm am-btn-block" href="{:U('user/favorite/do_favorite',array('id'=>$gd['id']))}" data-title="{$gd.post_title}" data-url="{:leuu('Shop/article/index',array('id'=>$gd['good_id']))}" data-key="{:sp_get_favorite_key('goods',$gd['good_id'])}"><i class="am-icon-star-half-o"></i> 收藏</a>
+			  		</div>
+					</div>
+			  		<div class="am-u-sm-12 item-remark">
+			  			<div class="am-fl">
+			  				<span class="am-fl"><b style="color: #5DAA21;">{$gd['post_hits']}</b>浏览</span>
+			  			</div>
+			  			<div class="am-fr">
+			  				<div class="icon-div">{$mall[$gd['mid']]} <span class="icon{$gd['mid']}"></span></div>
+			  			</div>
+			  		</div>
+			  	</div>
+			  </if>
+			  </div>
+			</div>
+			</foreach>
+			
+			
+			<php>
+			if(empty($results['goods'])){
+				echo "<p>没有搜索到信息哦，换点简单的试试~</p>";
+			}
+			</php>
+			
+		</div>
+	</div>
+	
+</div>
+<tc_include file="Public:footer"/>
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<tc_include file="Public:scripts"/>
+<script type="text/javascript" src="__TMPL__Public/js/masonry.pkgd.min.js" ></script>
+
+<!--	描述：瀑布流jQuery 代码	-->
+<script>
+$('.grid').masonry({
+  // options
+  itemSelector: '.grid-item',
+  columnWidth: 0,
+  percentPosition: true
+});
+</script>
+<script>
+$(function(){
+	$.post("/ffyinyue/index.php?g=user&m=index&a=is_login",{},function(data){
+		if(data.status==1){
+			$(".top-user .xw-login").text(data.user.user_nicename!=""?"你好，"+data.user.user_nicename:data.user.user_login);
+			$(".top-user .xw-login").attr("href","{:u('user/center/index')}");
+			$(".top-user .xw-register").attr("href","{:u('user/index/logout')}").text("退出登录");
+			$(".topnav #nav-login").remove();
+		}
+	});
+	
+	//获取要定位元素距离浏览器顶部的距离
+	var navH = $(".slidebar").offset().top;
+	//滚动条事件
+	$(window).scroll(function(){
+		//获取滚动条的滑动距离
+		var scroH = $(this).scrollTop();
+		//滚动条的滑动距离大于等于定位元素距离浏览器顶部的距离，就固定，反之就不固定
+		if(scroH>=navH){
+			$(".slidebar-top").removeClass("slidetop-height");
+		}else if(scroH<navH){
+			$(".slidebar-top").addClass("slidetop-height");
+		}
+	})
+})
+</script>
+<script>
+    $(".pin").pin({
+		containerSelector: ".xw-content-fixed", 
+		minWidth: 940
+	});
+</script>
+
+<!--<![endif]-->
+<!--[if lte IE 8 ]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<![endif]-->
+{:hook('footer_end')}
+</body>
+</html>

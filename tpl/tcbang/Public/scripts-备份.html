@@ -1,0 +1,31 @@
+<script type="text/javascript">
+//全局变量
+var GV = {
+    DIMAUB: "__ROOT__/",
+    JS_ROOT: "statics/js/",
+    TOKEN: ""
+};
+</script>
+<!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+	<script src="http://apps.bdimg.com/libs/jquery/1.8.0/jquery.min.js"></script>
+	<script src="__ROOT__/statics/js/wind.js"></script>
+	<script src="__TMPL__Public/simpleboot/amazeui/js/amazeui.min.js"></script>
+	<script src="__ROOT__/statics/js/frontend.js"></script>
+	<script src="http://cdn.staticfile.org/jquery.pin/1.0.1/jquery.pin.min.js"></script>
+<script>
+$(function(){
+	$.post("{:U('user/index/is_login')}",{},function(data){
+		if(data.status==1){
+			$(".top-user .xw-login").text(data.user.user_nicename!=""?"你好，"+data.user.user_nicename:data.user.user_login);
+			$(".top-user .xw-login").attr("href","{:u('user/center/index')}");
+			$(".top-user .xw-register").attr("href","{:u('user/index/logout')}").text("退出登录");
+			$(".topnav #nav-login").attr("href","{:u('user/center/index')}").text("个人中心");
+		}
+	});
+})
+</script>
+	
+	
+

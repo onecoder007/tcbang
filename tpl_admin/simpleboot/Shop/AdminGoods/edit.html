@@ -1,0 +1,540 @@
+<admintpl file="header"/>
+<style type="text/css">
+.col-auto { overflow: auto; _zoom: 1;_float: left;}
+.col-right { float: right; width: 210px; overflow: hidden; margin-left: 6px; }
+.table th, .table td {vertical-align: middle;}
+.picList li{margin-bottom: 5px;}
+
+.xw-example {position:relative; margin: 15px 0; padding: 35px 13px 10px; background-color: #fff; border: 1px solid #ddd; -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px;}
+.xw-example-header {position: absolute; top: -1px; left: -1px; padding: 3px 7px; font-size: 12px; font-weight: bold; background-color: #f5f5f5; border: 1px solid #ddd; color: #9da0a4; -webkit-border-radius: 4px 0 4px 0; -moz-border-radius: 4px 0 4px 0; border-radius: 4px 0 4px 0;}
+.xw-example-content {text-align:center;}
+.xw-example-close {position: absolute;  top: -1px; left: 280px;}
+.xw-example input,.xw-example textarea {color:#000;}
+</style>
+</head>
+<php>
+/*信息处理*/
+	
+	$good['goods_name'] = explode("|**|",$good['goods_name']);
+	array_pop($good['goods_name']);
+	$good['img'] = explode("|**|",$good['img']);
+	array_pop($good['img']);
+	$good['url'] = explode("|**|",$good['url']);
+	array_pop($good['url']);
+	
+	$good['price'] = json_decode($good['price']);
+	$good['kuaidi'] = json_decode($good['kuaidi']);
+	$good['salenum'] = json_decode($good['salenum']);
+	
+	$length = count($good['goods_name']);
+/*处理结束*/
+</php>
+<body class="J_scroll_fixed">
+<div class="wrap J_check_wrap">
+  <ul class="nav nav-tabs">
+     <li><a href="{:U('AdminGoods/index')}">所有商品</a></li>
+     <li class="active"><a href="{:U('AdminGoods/add',array('category'=>empty($category['ctg_id'])?'':$category['ctg_id']))}"  target="_self">添加商品</a></li>
+  </ul>
+  <form name="myform" id="myform" action="{:u('AdminGoods/edit_post')}" method="post" enctype="multipart/form-data">
+
+  <div class="col-auto">
+    <div class="row">
+		<div class="span6">
+		<button type="button" id="goodButtonAdd" class="btn btn-success btn-lg">再+1个goodInfo表</button>
+		<button type="button" id="goodButtonDel" class="btn btn-default btn-lg">删掉最后1个goodInfo表</button>
+		</div>
+	</div>
+	<div class="row">
+		<div class="span6">
+			<div class="xw-example">
+				<div class="xw-example-header">
+					分类
+				</div>
+				<div class="xw-example-content">
+					<select multiple="multiple" style="min-height: 150px;" name="good[ctg_id]">
+						{$taxonomys}
+					</select>
+					<div>
+						Windows and Mac：只能选一个
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="span5">
+			<div class="xw-example">
+				<div class="xw-example-header">
+					SEO内容
+				</div>
+				<div class="xw-example-content">
+					<div class="input-prepend" style="padding:3px 0;">
+						<span class="add-on">标题</span>
+						<input type="hidden" name="good[good_id]" value="{$good.good_id}" />
+						<input class="span2" id="prependedInput" value="{$good.post_title}" name="good[post_title]" type="text" placeholder="SEO-title"/>
+					</div><br>
+					<div class="input-prepend" style="padding:3px 0;">
+						<span class="add-on">关键字</span>
+						<input class="span2" id="prependedInput" value="{$good.post_keywords}" name="good[post_keywords]" type="text" placeholder="SEO-keywords"/>
+					</div><br>
+					<div class="input-prepend" style="padding:3px 0;">
+						<span class="add-on">描述</span>
+						<textarea rows="3"  id="prependedInput" name="good[post_description]" type="text" placeholder="SEO-description">{$good.post_description}</textarea>
+					</div><br>
+				</div>
+			</div>
+		</div>
+	</div>	
+	<div class="row good-row">	
+		<for start="0" end="$length">
+		<div class="span4 goodinfo alert-dismissible fade in">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+			<div class="xw-example">
+				<div class="xw-example-header">
+					商品
+				</div>
+				<div class="xw-example-content">
+					<table class="table table-striped">
+						<tbody>
+							<tr>
+								<td>商品名</td>
+								<td><input class="span2" value="{$good['goods_name'][$i]}" id="prependedInput" name="good[goods_name][]" type="text"/>
+								</td>
+							</tr>
+							<tr>
+								<td>价格</td>
+								<td><input class="span2" value="{$good['price'][$i]}" id="prependedInput" name="good[price][]" type="text" /></td>
+							</tr>
+							<tr>
+								<td>图片</td>
+								<td>
+								<img src="{$good['img'][$i]}" class="am-center" style="width:50px; height:50px;"><br>
+								<input class="span2" value="{$good['img'][$i]}" id="prependedInput" name="good[img][]" type="text" />
+								<a href="javascript:void(0);" onclick="flashupload('thumb_images', '附件上传','thumb',thumb_images,'1,jpg|jpeg|gif|png|bmp,1,,,1','','','');return false;"  class="btn">.</a>
+								</td>
+							</tr>
+							<tr>
+								<td>链接</td>
+								<td>
+								<textarea rows="3" name="url[good][]">{$good['url'][$i]}</textarea>
+								</td>
+							</tr>
+							<tr>
+								<td>快递</td>
+								<td><input class="span2" value="{$good['kuaidi'][$i]}" id="prependedInput" name="good[kuaidi][]" type="text"/></td>
+							</tr>
+							<tr>
+								<td>销量</td>
+								<td><input class="span2" value="{$good['salenum'][$i]}" id="prependedInput" name="good[salenum][]" type="text"/></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		</for>
+		
+		<div class="span4 mealinfo">
+			<div class="xw-example">
+				<div class="xw-example-header">
+					<font style="color:red">套餐</font>
+				</div>
+				<div class="xw-example-content">
+					<small>若只有一个商品，套餐不填</small>
+					<table class="table table-striped">
+						<tbody>
+							<tr>
+								<td>套餐名</td>
+								<td>
+								<input type="text" class="span2" value="{$good['meal_name']}" name="good[meal_name]" />
+								</td>
+							</tr>
+							<tr>
+								<td>价格<span class="must_red">*</span></td>
+								<td>
+								<input type="text" class="span2" value="{$good['meal_price']}" name="good[meal_price]"  placeholder="请输入价格" />
+								</td>
+							</tr>
+							<tr>
+								<td>链接</td>
+								<td>
+								<textarea rows="3" id="inputError" name="url[meal]" placeholder="套餐链接">{$good['url_meal']}</textarea>
+								<input type="hidden" name="url[url_id]" value="{$good['url_id']}" />
+								</td>
+							</tr>
+							<tr>
+								<td>图片</td>
+								<td><input class="span2" value="{$good['meal_img']}" id="inputError" name="good[meal_img]" type="text" placeholder="图片">
+								<a href="javascript:;" style="margin: 5px 0;" onclick="javascript:flashupload('albums_images', '图片上传','photos',change_images,'10,gif|jpg|jpeg|png|bmp,0','','','')" class="btn">+</a>
+								</td>
+							</tr>
+							<tr>
+								<td>快递</td>
+								<td><input class="span2" value="{$good['meal_kuaidi']}" id="inputError" name="good[meal_kuaidi]" type="text" placeholder="套餐快递"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="span4">
+			<div class="xw-example">
+				<div class="xw-example-header">
+					Other
+				</div>
+				<div class="xw-example-content">
+					<table class="table table-striped">
+						<tbody>
+							<tr>
+								<td>商城</td>
+								<td>
+									<label class="radio inline">
+										<input type="radio" name="good[mid]" value="1" <php>echo $good['mid']==1?'checked':null;</php>>淘宝
+									</label>
+									<label class="radio inline">
+										<input type="radio" name="good[mid]" value="2" <php>echo $good['mid']==2?'checked':null;</php>>天猫
+									</label>
+									<label class="radio inline">
+										<input type="radio" name="good[mid]" value="3" <php>echo $good['mid']==3?'checked':null;</php>>京东
+									</label>
+								</td>
+							</tr>
+							<tr>
+								<td>性别</td></td>
+								<td>
+									<label class="radio inline">
+										<input type="radio" name="good[sex_id]" value="0" <php>echo $good['sex_id']==0?'checked':null;</php>>全部
+									</label>
+									<label class="radio inline">
+										<input type="radio" name="good[sex_id]" value="1" <php>echo $good['sex_id']==1?'checked':null;</php>>男
+									</label>
+									<label class="radio inline">
+										<input type="radio" name="good[sex_id]" value="2" <php>echo $good['sex_id']==2?'checked':null;</php>>女
+									</label>
+									<label class="radio inline">
+										<input type="radio" name="good[sex_id]" value="3" <php>echo $good['sex_id']==3?'checked':null;</php>>情侣
+									</label>
+								</td>
+							</tr>
+							<tr>
+								<td>标签</td>
+								<td><input class="span2" value="{$good['tags']}" name="good[tags]" type="text" placeholder="套餐标签">
+									<br>*用空格分隔
+								</td>
+							</tr>
+							<tr>
+								<td>备注</td>
+								<td><textarea rows="3" name="good[remark]">{$good['remark']}</textarea></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="span4">
+			<div class="xw-example">
+				<div class="xw-example-header">
+					店铺
+				</div>
+				<div class="xw-example-content">
+					<table class="table table-striped">
+						<tbody>
+							<tr>
+								<td>店铺ID</td>
+								<td>
+									{$good.store_id}
+								</td>
+							</tr>
+							<tr>
+								<td>店铺名</td>
+								<td>
+									{$good.sto_name}
+								</td>
+							</tr>
+							<tr>
+								<td>店铺评分</td>
+								<td>
+									{$good.sto_score}
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="span4">
+			<div class="xw-example">
+				<div class="xw-example-header">
+					设置
+				</div>
+				<div class="xw-example-content">
+					<table class="table">
+						<tr>
+							<td><b>缩略图</b></td>
+						</tr>
+						<tr>
+							<td>
+								<div  style="text-align: center;"><input type='hidden' name='smeta[thumb]' id='thumb' value="{$smeta.thumb|default=''}">
+									<a href='javascript:void(0);' onclick="flashupload('thumb_images', '附件上传','thumb',thumb_images,'1,jpg|jpeg|gif|png|bmp,1,,,1','','','');return false;">
+			
+									<if condition="empty($smeta['thumb'])">
+										<img src="__ROOT__/statics/images/icon/upload-pic.png" id='thumb_preview' width='135' height='113' style='cursor:hand' />
+									<else/>
+										<img src="{:sp_get_asset_upload_path($smeta['thumb'])}" id='thumb_preview' width='135' height='113' style='cursor:hand' />
+									</if>
+			
+									</a>
+									<!-- <input type="button" class="btn" onclick="crop_cut_thumb($('#thumb').val());return false;" value="裁减图片">  -->
+									<input type="button"  class="btn" onclick="$('#thumb_preview').attr('src','__ROOT__/statics/images/icon/upload-pic.png');$('#thumb').val('');return false;" value="取消图片">
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<td>
+								<b>入库时间:</b> {$good.post_date} (不可更改)<br>
+								<b>更新时间:</b> {$good.post_modified}
+							</td>
+						</tr>
+						<tr>
+							<td><input type="text" placeholder="为空即会录入当前时间" name="good[post_modified]" id="updatetime" size="21" class="input-small J_datetime" style="width:160px;"></td>
+						</tr>
+						<tr>
+							<td><b>状态</b></td>
+						</tr>
+						<tr>
+							<td>
+								<span class="switch_list cc">
+									<php>
+										/*是否审核*/
+										$status_yes=$good['post_status']==1?"checked":"";
+										$status_no=$good['post_status']==0?"checked":"";
+										/*是否置顶*/
+										$istop_yes=$good['istop']==1?"checked":"";
+										$istop_no=$good['istop']==0?"checked":"";
+										/*是否推荐*/
+										$recommended_yes=$good['recommended']==1?"checked":"";
+										$recommended_no=$good['recommended']==0?"checked":"";
+										/*能否评论*/
+										$comment_status_yes=$good['comment_status']==1?"checked":"";
+										$comment_status_no=$good['comment_status']==0?"checked":"";
+									</php>
+									<label class="radio"><input type="radio" name="good[post_status]" value="1" {$status_yes}><span>审核通过</span></label>
+									<label class="radio"><input type="radio" name="good[post_status]" value="0" {$status_no}><span>未审核</span></label>
+								</span>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<span class="switch_list cc">
+								<label class="radio"><input type="radio" name="good[istop]" value="1" {$istop_yes}><span>置顶</span></label>
+								<label class="radio"><input type="radio" name="good[istop]" value="0" {$istop_no}><span>未置顶</span></label>
+								</span>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<span class="switch_list cc">
+								<label class="radio"><input type="radio" name="good[recommended]" value="1" {$recommended_yes}><span>推荐</span></label>
+								<label class="radio"><input type="radio" name="good[recommended]" value="0" {$recommended_no}><span>未推荐</span></label>
+								</span>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<span class="switch_list cc">
+								<label class="radio"><input type="radio" name="good[comment_status]" value="1" {$comment_status_yes}><span>允许评论</span></label>
+								<label class="radio"><input type="radio" name="good[comment_status]" value="0" {$comment_status_no}><span>不许评论</span></label>
+								</span>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+  </div>
+  <div class="col-auto">
+    <div class="table_full">
+      <table class="table table-bordered">
+            <tr>
+              <th width="80">内容</th>
+               <td><div id='content_tip'></div>
+              	<script type="text/plain" id="content" name="good[post_content]">{$good.post_content}</script>
+                <script type="text/javascript">
+                //编辑器路径定义
+                var editorURL = GV.DIMAUB;
+                </script>
+                <script type="text/javascript"  src="__ROOT__/statics/js/ueditor/ueditor.config.js"></script>
+                <script type="text/javascript"  src="__ROOT__/statics/js/ueditor/ueditor.all.min.js"></script>
+				</td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="form-actions">
+        <button class="btn btn-primary btn_submit J_ajax_submit_btn" action="{:U('AdminGoods/edit_post')}" type="submit">提交</button>
+        <a class="btn" href="{:U('AdminGoods/index')}">返回</a>
+  </div>
+ </form>
+</div>
+<script type="text/javascript" src="__ROOT__/statics/js/common.js"></script>
+<script type="text/javascript" src="__ROOT__/statics/js/content_addtop.js"></script>
+<script type="text/javascript"> 
+$(function () {
+	//setInterval(function(){public_lock_renewal();}, 10000);
+	$(".J_ajax_close_btn").on('click', function (e) {
+	    e.preventDefault();
+	    Wind.use("artDialog", function () {
+	        art.dialog({
+	            id: "question",
+	            icon: "question",
+	            fixed: true,
+	            lock: true,
+	            background: "#CCCCCC",
+	            opacity: 0,
+	            content: "您确定需要关闭当前页面嘛？",
+	            ok:function(){
+					setCookie("refersh_time",1);
+					window.close();
+					return true;
+				}
+	        });
+	    });
+	});
+	/////---------------------
+	 Wind.use('validate', 'ajaxForm', 'artDialog', function () {
+			//javascript
+	        
+	            //编辑器
+	            editorcontent = new baidu.editor.ui.Editor();
+	            editorcontent.render( 'content' );
+	            try{editorcontent.sync();}catch(err){};
+	            //增加编辑器验证规则
+	            jQuery.validator.addMethod('editorcontent',function(){
+	                try{editorcontent.sync();}catch(err){};
+	                return editorcontent.hasContents();
+	            });
+	            var form = $('form.J_ajaxForms');
+	        //ie处理placeholder提交问题
+	        if ($.browser.msie) {
+	            form.find('[placeholder]').each(function () {
+	                var input = $(this);
+	                if (input.val() == input.attr('placeholder')) {
+	                    input.val('');
+	                }
+	            });
+	        }
+	        //表单验证开始
+	        form.validate({
+				//是否在获取焦点时验证
+				onfocusout:false,
+				//是否在敲击键盘时验证
+				onkeyup:false,
+				//当鼠标掉级时验证
+				onclick: false,
+	            //验证错误
+	            showErrors: function (errorMap, errorArr) {
+					//errorMap {'name':'错误信息'}
+					//errorArr [{'message':'错误信息',element:({})}]
+					try{
+						$(errorArr[0].element).focus();
+						art.dialog({
+							id:'error',
+							icon: 'error',
+							lock: true,
+							fixed: true,
+							background:"#CCCCCC",
+							opacity:0,
+							content: errorArr[0].message,
+							cancelVal: '确定',
+							cancel: function(){
+								$(errorArr[0].element).focus();
+							}
+						});
+					}catch(err){
+					}
+	            },
+	            //验证规则
+	            rules: {'post[post_title]':{required:1},'post[post_content]':{editorcontent:true}},
+	            //验证未通过提示消息
+	            messages: {'post[post_title]':{required:'请输入标题'},'post[post_content]':{editorcontent:'内容不能为空'}},
+	            //给未通过验证的元素加效果,闪烁等
+	            highlight: false,
+	            //是否在获取焦点时验证
+	            onfocusout: false,
+	            //验证通过，提交表单
+	            submitHandler: function (forms) {
+	                $(forms).ajaxSubmit({
+	                    url: form.attr('action'), //按钮上是否自定义提交地址(多按钮情况)
+	                    dataType: 'json',
+	                    beforeSubmit: function (arr, $form, options) {
+	                        
+	                    },
+	                    success: function (data, statusText, xhr, $form) {
+	                        if(data.status){
+								setCookie("refersh_time",1);
+								//添加成功
+								Wind.use("artDialog", function () {
+								    art.dialog({
+								        id: "succeed",
+								        icon: "succeed",
+								        fixed: true,
+								        lock: true,
+								        background: "#CCCCCC",
+								        opacity: 0,
+								        content: data.info,
+										button:[
+											{
+												name: '继续编辑？',
+												callback:function(){
+													//reloadPage(window);
+													return true;
+												},
+												focus: true
+											},{
+    											name: '返回列表页',
+												callback:function(){
+													location='{:U('AdminPost/index')}';
+													return true;
+												}
+											}
+										]
+								    });
+								});
+							}else{
+								isalert(data.info);
+							}
+	                    }
+	                });
+	            }
+	        });
+	    });
+	////-------------------------
+	
+	//点击button,增加一个goodinfo表
+
+	$('.goodinfo:first').removeClass("alert-dismissible fade in");
+	$('.goodinfo:first').children('button.close').remove();
+	$("button").remove(".goodinfo:first");
+	$('#goodButtonAdd').click(function(){
+		$('.goodinfo:last').after(function(){
+			var goodInfoNew = "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button><div class=\"xw-example\"><div class=\"xw-example-header\">商品</div><div class=\"xw-example-content\"><table class=\"table table-striped\"><tbody><tr><td>商品名</td><td><input class=\"span2\" id=\"prependedInput\" name=\"goods[name][]\" type=\"text\" placeholder=\"商品名\"></td></tr><tr><td>价格</td><td><input class=\"span2\" id=\"prependedInput\" name=\"goods[price][]\" type=\"text\" placeholder=\"价格\"></td></tr><tr><td>图片</td><td><input class=\"span2\" id=\"prependedInput\" name=\"img[]\" type=\"text\" placeholder=\"图片\"><a href=\"javascript:void(0);\" onclick=\"flashupload('thumb_images', '附件上传','thumb',thumb_images,'1,jpg|jpeg|gif|png|bmp,1,,,1','','','');return false;\"  class=\"btn\">.</a></td></tr><tr><td>链接</td><td><textarea rows=\"3\" name=\"url[goods][]\" placeholder=\"商品链接\"></textarea></td></tr><tr><td>快递</td><td><input class=\"span2\" id=\"prependedInput\" name=\"goods[kuaidi][]\" type=\"text\" placeholder=\"快递\"></td></tr></tbody></table></div></div>"
+			return '<div class="span4 goodinfo alert-dismissible fade in">'+goodInfoNew+'</div>';
+		});
+	})
+	$('#goodButtonDel').click(function(){
+		if($('.goodinfo').length==1){
+			alert('最后一个good表，不能删除');
+		}else{
+			$('.goodinfo:last').remove();
+		}
+		
+	})
+});
+</script>
+</body>
+</html>

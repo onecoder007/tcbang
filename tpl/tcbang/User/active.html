@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>{$site_name}</title>
+<meta name="keywords" content="{$site_seo_keywords}" />
+<meta name="description" content="{$site_seo_description}">
+<meta name="author" content="ThinkCMF">
+<tc_include file="Public:head" />
+</head>
+
+<body class="body-white">
+	<tc_include file="Public:nav-logo" />
+
+	<div class="am-container tc-main">
+		<div class="am-g">
+			<div class="am-u-sm-6 am-offset-sm-3">
+				
+				<div class="text-center">
+							<h2 class="text-center">重发激活邮件?<a href="{:U('user/login/doactive')}" type="submit">现在就重发吧！</a></h2>
+						</div>
+			</div>
+		</div>
+
+
+	</div>
+	<!-- /container -->
+
+	<tc_include file="Public:scripts" />
+</body>
+</html>

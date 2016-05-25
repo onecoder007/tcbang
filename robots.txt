@@ -1,0 +1,15 @@
+User-agent: *
+Disallow: 
+Disallow: /user/
+Disallow: /shop/article/link/
+Disallow: /portal/article/link/
+Disallow: /hanuser/
+Disallow: /data/
+Disallow: /api/
+Disallow: /logreport/
+Disallow: /plugins/
+Disallow: /simplewind/
+Disallow: /statics/
+Disallow: /tpl/
+Disallow: /tpl_admin/
+Disallow: /application/

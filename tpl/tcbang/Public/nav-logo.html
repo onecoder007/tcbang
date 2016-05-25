@@ -1,0 +1,30 @@
+<header class="am-topbar topnav nav-logo" style="background:#FFF;">
+
+  <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#doc-topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+
+  <div class="am-g xw-container am-padding-left">
+	<h1 class="am-topbar-brand">
+		<a href="#" class="am-text-ir">套餐帮</a>
+	</h1>
+  <div class="am-collapse am-topbar-collapse" id="doc-topbar-collapse">
+  
+       	<?php
+			$effected_id="";
+		  	$filetpl="<a href='\$href' target='\$target'>\$label</a>";
+		  	$foldertpl="<a class=\'am-dropdown-toggle\' data-am-dropdown-toggle href=\'javascript:;\' target='\$target'>\$label <span class=\'am-icon-caret-down\'></span></a>";
+		  	$ul_class="am-dropdown-content" ;
+		  	$li_class="" ;
+		  	$style="am-nav am-nav-pills am-topbar-nav";
+		  	$showlevel=6;
+		  	$dropdown='am-dropdown';
+		  	echo sp_get_menu("main",$effected_id,$filetpl,$foldertpl,$ul_class,$li_class,$style,$showlevel,$dropdown);
+		?>
+
+    <div class="am-topbar-form am-topbar-right am-form-inline">
+	  <a class="am-btn xw-btn-white am-btn-sm" id="nav-login" target="_blank" href="{:u('user/login/index')}"><i class="am-icon-user"></i> 登录</a>
+	  <a class="am-btn xw-btn-white am-btn-sm" target="_blank" href="{:u('user/favorite/index')}"><i class="am-icon-star-half-o"></i> 我的收藏</a>
+    </div>
+	
+  </div>
+  </div>
+</header>

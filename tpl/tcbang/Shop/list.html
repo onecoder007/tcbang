@@ -1,0 +1,297 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <title>【{$name}】{$seo_title} - {$site_name}</title>
+  <meta name="keywords" content="{$seo_keywords}" />
+  <meta name="description" content="{$seo_description}">
+  <tc_include file="Public:head" />
+</head>
+<body>
+
+<tc_include file="Public:top" />
+<tc_include file="Public:nav" />
+<!--顶部分类-->
+
+<div id="junav" class="">
+  <div class="area">
+    <span class="l">
+		  <a href="http://www.tcbang.cn" class="<php>if($_GET['id']==0 || $_GET['id']==null) echo 'on';</php>"><em>全部</em></a>
+		<foreach name="terms_parents" item="vo">
+          <a href="{:leuu('Shop/List/index',array('id'=>$vo['ctg_id']))}" class="<php>if($_GET['id']==$vo['ctg_id'] || $parent_id==$vo['ctg_id']) echo 'on';</php>"><em>{$vo.name}</em></a>
+		</foreach>
+    </span>
+    
+    <div class="am-input-group search" style="float:right; width:121px; height:24px;">
+      <input type="text" class="am-form-field" style="width: 92px; height: 25px; line-height: 22px; font-size:12px;" placeholder="搜全站">
+      <span class="am-input-group-btn">
+        <button class="am-btn am-btn-default" type="button" style="width: 27px;  height: 25px; padding:0;"><span class="am-icon-search"></span></button>
+      </span>
+    </div>
+  </div>
+</div>
+
+<if condition="(empty($terms_children) eq false) or ($parent_id neq 0)">
+<div id="seclevel" class="secjunav_fix_top secjunav">
+    <div class="seclevelinner" sort="hottest">
+		<a href="{:leuu('Shop/List/index',array('id'=>$parent_id))}" class="nav <php>if($_GET['id']==$parent_id) echo 'on';</php>" type="all">
+            <em>全部<i></i></em>
+		</a>
+		<foreach name="terms_children" item="vo">
+        <a href="{:leuu('Shop/List/index',array('id'=>$vo['ctg_id']))}" class="nav <php>if($_GET['id']==$vo['ctg_id']) echo 'on';</php>" type="all">
+            <em>{$vo.name}<i></i></em>
+		</a>
+        </foreach>
+        <span class="r-soft">
+		   <a>排序：</a>
+		   <a href="#" id="sale">销量</a>
+		   <a href="#" id="newest">最新</a>
+		   <a href="#" id="hottest" class="on">最热</a>
+        </span>
+        
+    </div>
+</div>
+</if>
+
+<!--顶部分类-->
+
+
+<div class="am-container xw-content-fixed">
+	
+<php>
+$count = count($goods);
+/*信息处理*/
+		for($i=0; $i<$count; $i++){
+			$goods[$i]['goods_name'] = explode("|**|",$goods[$i]['goods_name']);
+			array_pop($goods[$i]['goods_name']);
+			$goods[$i]['url'] = explode("|**|",$goods[$i]['url']);
+			array_pop($goods[$i]['url']);
+			$goods[$i]['img'] = explode("|**|",$goods[$i]['img']);
+			array_pop($goods[$i]['img']);
+			
+			$goods[$i]['price'] = json_decode($goods[$i]['price']);
+			$goods[$i]['kuaidi'] = json_decode($goods[$i]['kuaidi']);
+		}
+/*处理结束*/
+$mall = array("0"=>"","1"=>"淘宝","2"=>"天猫","3"=>"京东");
+</php>
+	
+	<!-- contents start -->
+	<div class="am-u-lg-12 am-u-sm-12 am-u-md-12 contents" id="masonry-parent">
+		
+		<div id="masonry">
+		</div>
+		<div id="loading" style="text-align:center; margin:20px; min-height:500px;">
+			<i class="am-icon-spinner am-icon-pulse"></i> 正在加载...
+		</div>
+		
+		<div id="masonry_ghost" class="grid hide">
+			<php>$i = 0;</php>
+			<foreach name="goods" item="gd">
+				<php>
+					$length=count($gd['goods_name']);
+					$a = $a+1;
+					$r = $a/3;
+				</php>
+
+			<div class="grid-item">
+			  <div class="grid-item-child">
+			  <if condition="$length gt 1"> 
+			  	<div class="am-g">
+					<div>
+					<for start="0" end="$length">
+			  		<div class="am-u-sm-6 am-padding-xs item-img">
+						<div class="hoverimg">
+			  			<a href="{:leuu('Shop/article/index',array('id'=>$gd['good_id']))}" target="_blank">
+							<img src="__TMPL__Public/images/zhanwei.jpg" data-src="{$gd['img'][$i]}_270x270.jpg" class="am-img-responsive imgs" alt="{$gd['goods_name'][$i]}" />
+						</a>
+						</div>
+						<h4 class="item-good" title="{$gd['goods_name'][$i]}"><span class="am-badge am-radius xw-badge-default">￥{$gd['price'][$i]}</span> {$gd['goods_name'][$i]}</h4>
+			  		</div>
+						<php> $gd['total'] += $gd['price'][$i];</php>
+					</for>
+					<div class="am-cf"></div>
+					</div>
+					<if condition="!empty($gd['post_title'])">
+					<h3 class="item-title">
+						<a href="{:leuu('Shop/article/index',array('id'=>$gd['good_id']))}" class="xw-text-link" target="_blank">{$gd['post_title']}</a>
+					</h3>
+					</if>
+					
+					<php>$price = explode(".",$gd['meal_price']);</php>
+					<div class="am-g" style="margin:0; padding:0;">
+			  		<div class="am-u-sm-6 item-price">
+			  			<span class="am-text-sm" style="color: #999;"><em><del>￥{$gd['total']}</del></em> <b>|</b> <u class="am-text-warning">省￥{$gd['total']-$gd['meal_price']}</u></span><br>
+			  			<em class="item-price-em am-text-danger"><b class="am-text-lg">￥</b><b>{$price[0]}.</b><i class="am-text-xl">{$price[1]}</i></em><br>
+			  		</div>
+			  		<div class="am-u-sm-6 am-padding-sm am-btn-group am-btn-group-stacked item-button">
+			  			<a class="am-btn am-btn-default am-btn-sm am-btn-block" target="_blank" href="{:leuu('Shop/article/index',array('id'=>$gd['good_id']))}"><i class="am-icon-paper-plane-o"></i> 详情</a>
+						<a class="J_favorite_btn am-btn am-btn-default xw-btn-default am-btn-sm am-btn-block"  href="{:leuu('user/favorite/do_favorite',array('id'=>$gd['good_id']))}" data-title="{$gd.post_title}" data-url="{:leuu('Shop/article/index',array('id'=>$gd['good_id']))}" data-key="{:sp_get_favorite_key('goods',$gd['good_id'])}"><i class="am-icon-star-half-o"></i> 收藏</a>
+			  		</div>
+					</div>
+			  		<div class="am-u-sm-12 item-remark">
+			  			<div class="am-fl">
+			  				<span class="am-fl"><b style="color: #5DAA21;">{$gd['post_hits']}</b>浏览</span>
+			  			</div>
+			  			<div class="am-fr">
+			  				<div class="icon-div">{$mall[$gd['mid']]} <span class="icon{$gd['mid']}"></span></div>
+			  			</div>
+			  		</div>
+			  	</div>
+			  <else />
+				<div class="am-g">
+					<div>
+					<for start="0" end="$length">
+			  		<div class="am-u-sm-12 am-padding-xs item-img">
+						<div class="hoverimg">
+			  			<a href="#">
+							<img src="__TMPL__Public/images/zhanwei.jpg" data-src="{$gd['img'][$i]}_320x320.jpg" class="am-img-responsive imgs" alt="{$gd['goods_name'][$i]}" />
+						</a>
+						</div>
+						<h4 class="item-good line-clamp" title="{$gd['goods_name'][$i]}"><span class="am-badge am-radius xw-badge-default">￥{$gd['price'][$i]}</span>　{$gd['goods_name'][$i]}</h4>
+			  		</div>
+					</for>
+					<div class="am-cf"></div>
+					</div>
+					
+					<php>$price = explode(".",$gd['price'][0]);</php>
+					<div class="am-g" style="margin:0; padding:0;">
+			  		<div class="am-u-sm-6 item-price">
+			  			<br>
+			  			<em class="item-price-em am-text-danger"><b class="am-text-lg">￥</b><b>{$price[0]}.</b><i class="am-text-xl">{$price[1]}</i></em><br>
+			  		</div>
+			  		<div class="am-u-sm-6 am-padding-sm am-btn-group am-btn-group-stacked item-button">
+			  			<a class="am-btn am-btn-default am-btn-sm am-btn-block" href="{:leuu('Shop/article/index',array('id'=>$gd['id']))}"><i class="am-icon-paper-plane-o"></i> 详情</a>
+						<a class="J_favorite_btn am-btn am-btn-success am-btn-sm am-btn-block" href="{:leuu('user/favorite/do_favorite',array('id'=>$gd['id']))}"><i class="am-icon-star-half-o"></i> 收藏</a>
+			  		</div>
+					</div>
+			  		<div class="am-u-sm-12 item-remark">
+			  			<div class="am-fl">
+			  				<span class="am-fl"><b style="color: #5DAA21;">{$gd['post_hits']}</b>浏览</span>
+			  			</div>
+			  			<div class="am-fr">
+			  				<div class="icon-div">{$mall[$gd['mid']]} <span class="icon{$gd['mid']}"></span></div>
+			  			</div>
+			  		</div>
+			  	</div>
+			  </if>
+			  </div>
+			</div>
+			
+			<if condition="is_int($r)">
+				<div class="grid-item zhanwei100"></div>
+			</if>
+			
+			</foreach>
+			
+			
+			<div class="am-cf"></div>
+			
+			
+			
+			
+		</div>
+	</div>
+	
+</div>
+<tc_include file="Public:footer"/>
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<tc_include file="Public:scripts"/>
+
+<script>
+	$(function() {
+		var loadingNode = $('#loading');//等待对象
+		var ghostNode = $('#masonry_ghost').find('.grid-item'), i, ghostIndexArray = []; //获得子集对象，变量i，空数组
+		var ghostCount = ghostNode.length;//子集个数
+		for(i=0; i<ghostCount; i++){
+			ghostIndexArray[i] = i;
+		}
+		//打乱
+	/*	ghostIndexArray.sort(function(a, b) {
+			if(Math.random() > 0.5) {
+				return a - b;
+			} else {
+				return b - a;
+			}
+		});
+	*/	
+		var currentIndex = 0;
+		var masNode = $('#masonry');//待添加地区
+		function getNewItems() {
+				var newItemContainer = $('<div/>');//上段添加结尾
+				for(var i=0; i<10; i++) {
+					if(currentIndex < ghostCount) {
+						newItemContainer.append(ghostNode.get(ghostIndexArray[currentIndex]));
+						currentIndex++;
+					}
+				}
+				return newItemContainer.find('.grid-item');
+		}
+		
+		var msnry;
+		function initMasonry() {
+				var items = getNewItems().css('opacity', 0);
+				processNewItems(items);
+				
+				masNode.append(items);
+				
+				loadingNode.hide();
+				items.animate({'opacity': 1}, 300);
+		}
+		function appendToMasonry() {
+				var items = getNewItems().css('opacity', 0);
+				
+				if(items.length) {
+					items.animate({opacity:'1'});
+					loadingNode.hide();
+					processNewItems(items);
+					masNode.append(items);
+					//msnry.appended(items);
+				}
+		}
+		
+		function processNewItems(items) {
+				items.find(".item-img").each(function() {
+					var $this = $(this);
+					var imgsNode = $this.find('.imgs');
+					
+					var imgSrc = $this.find('.imgs').attr("data-src");
+					
+					imgsNode.attr("src",imgSrc);
+					
+				});
+			}
+		
+		initMasonry();
+		$(window).scroll(function() {
+			if($(document).height() - $(window).height() - $(document).scrollTop() < 550) {
+				appendToMasonry();
+			}
+		});
+    });
+	
+	//获取要定位元素距离浏览器顶部的距离
+	var navH = $("#junav").offset().top;
+	//滚动条事件
+	$(window).scroll(function(){
+		//获取滚动条的滑动距离
+		var scroH = $(this).scrollTop();
+		//滚动条的滑动距离大于等于定位元素距离浏览器顶部的距离，就固定，反之就不固定
+		if(scroH>=navH){
+			$("#junav").addClass("junav_fix");
+			$("#seclevel").addClass("secjunav_fix");
+			$("#seclevel").removeClass("secjunav");
+		}else if(scroH<navH){
+			$("#junav").removeClass("junav_fix");
+			$("#seclevel").removeClass("secjunav_fix");
+			$("#seclevel").addClass("secjunav");
+		}
+	});
+</script>
+
+<!--<![endif]-->
+<!--[if lte IE 8 ]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<![endif]-->
+</body>
+</html>

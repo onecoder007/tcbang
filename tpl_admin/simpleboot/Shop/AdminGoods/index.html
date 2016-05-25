@@ -1,0 +1,196 @@
+<admintpl file="header" />
+<body class="J_scroll_fixed">
+	<div class="wrap J_check_wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="javascript:;">所有商品</a></li>
+			<li><a href="{:U('AdminGoods/add',array('category'=>empty($category['ctg_id'])?'':$category['ctg_id']))}" target="_self">添加商品</a></li>
+		</ul>
+		<form class="well form-search" method="post" action="{:U('AdminGoods/index')}">
+			<div class="search_type cc mb10">
+				<div class="mb10">
+					<span class="mr20">分类： 
+						<select class="select_2" name="category">
+							<option value='0'>全部</option>{$taxonomys}
+						</select> &nbsp;&nbsp;
+						时间：
+						<input type="text" name="start_time" class="J_date" value="{$formget.start_time|default=''}" style="width: 90px;" autocomplete="off">-
+						<input type="text" class="J_date" name="end_time" value="{$formget.end_time}" style="width: 90px;" autocomplete="off"> &nbsp; &nbsp;
+						关键字： 
+						<input type="text" name="keyword" style="width: 200px;" value="{$formget.keyword}" placeholder="请输入关键字...">
+						<input type="submit" class="btn btn-primary" value="搜索" />
+					</span>
+				</div>
+			</div>
+		</form>
+		<form class="J_ajaxForm" action="" method="post">
+			<div class="table-actions">
+				<button class="btn btn-primary btn-small J_ajax_submit_btn" type="submit" data-action="{:U('AdminGoods/listorders')}">排序</button>
+				<button class="btn btn-primary btn-small J_ajax_submit_btn" type="submit" data-action="{:U('AdminGoods/check',array('check'=>1))}" data-subcheck="true">审核</button>
+				<button class="btn btn-primary btn-small J_ajax_submit_btn" type="submit" data-action="{:U('AdminGoods/check',array('uncheck'=>1))}" data-subcheck="true">取消审核</button>
+				<button class="btn btn-primary btn-small J_ajax_submit_btn" type="submit" data-action="{:U('AdminGoods/top',array('top'=>1))}" data-subcheck="true">置顶</button>
+				<button class="btn btn-primary btn-small J_ajax_submit_btn" type="submit" data-action="{:U('AdminGoods/top',array('untop'=>1))}" data-subcheck="true">取消置顶</button>
+				<button class="btn btn-primary btn-small J_ajax_submit_btn" type="submit" data-action="{:U('AdminGoods/recommend',array('recommend'=>1))}" data-subcheck="true">推荐</button>
+				<button class="btn btn-primary btn-small J_ajax_submit_btn" type="submit" data-action="{:U('AdminGoods/recommend',array('unrecommend'=>1))}" data-subcheck="true">取消推荐</button>
+				<button class="btn btn-primary btn-small J_ajax_submit_btn" type="submit" data-action="{:U('AdminGoods/delete')}" data-subcheck="true" data-msg="你确定删除吗？">删除</button>
+				<button class="btn btn-primary btn-small J_articles_move" type="button">批量移动</button>
+			</div>
+			<table class="table table-hover table-bordered table-list">
+				<thead>
+					<tr>
+						<th width="15"><label><input type="checkbox" class="J_check_all" data-direction="x" data-checklist="J_check_x"></label></th>
+						<th width="50">排序</th>
+						<th>商品名</th>
+						<th>分类</th>
+						<th>价格</th>
+						<th>套餐信息</th>
+						<th>商品内容</th>
+						<th>关键字</th>
+						<th>数量</th>
+						<th>店铺[ID]</th>
+						<th>发布人</th>
+						<th>发布时间</th>
+						<th>状态</th>
+						<th style="max-width:50px;">操作</th>
+					</tr>
+				</thead>
+				<php>
+				$status=array("1"=>"已审核","0"=>"未审核");
+				$top_status=array("1"=>"已置顶","0"=>"未置顶");
+				$recommend_status=array("1"=>"已推荐","0"=>"未推荐");
+				$sex = array("0"=>"男女都行","1"=>"男","2"=>"女","3"=>"情侣");
+				$mall = array("0"=>"未知","1"=>"淘宝","2"=>"天猫","3"=>"京东");
+				$baoyou = array("0"=>"不包邮","1"=>"包邮");
+				</php>
+				<foreach name="posts" item="vo">
+				<php>$vo['salenum'] = json_decode($vo['salenum']);</php>
+				<tr>
+					<td><input type="checkbox" class="J_check" data-yid="J_check_y" data-xid="J_check_x" name="good_ids[]" value="{$vo.good_id}" title="ID:{$vo.good_id}"></td>
+					<td><input name="listorders[{$vo.good_id}]" class="input input-order" type="text" size="5" value="{$vo.listorder}" title="ID:{$vo.good_id}"></td>
+					<td style="max-width:265px;">
+					<php>
+						$length=count($vo['goods_name']);
+					</php>
+					<for start="0" end="$length">
+						<img src="{$vo['img'][$i]}_110x110.jpg" style="max-width:100px;" class="img-rounded">　
+					</for>
+					<br>
+					<for start="0" end="$length">
+						<a href="{:leuu('Shop/article/index',array('id'=>$vo['good_id']))}" target="_blank"> <span>
+							<i style="font-style:normal; color:#333;">{$vo['goods_name'][$i]}</i> [{$baoyou[$vo['kuaidi'][$i]]}] [{$vo['salenum'][$i]}]<br>
+						</span></a>
+					</for>
+					</td>
+					<td>
+						{$category[$vo['ctg_id']]}<br>
+						{$mall[$vo['mid']]}<br>
+						{$sex[$vo['sex_id']]}
+					</td>
+					<td>
+						<for start="0" end="$length">
+							{$vo['price'][$i]} <br>
+							<php> $vo['total'] += $vo['price'][$i];</php>
+						</for>
+						<font style="color:red;">{$vo['meal_price']}</font> <br>
+						[省：{$vo['total']-$vo['meal_price']}]
+					</td>
+					<td style="max-width:120px;">
+						名：{$vo['meal_name']} [{$vo['meal_kuaidi']}]<br>
+						{$vo['meal_img']} 
+					</td>
+					<td>{$excerpt_content = empty($vo['post_content'])?" ":'已填写'}</td>
+					<td>{$excerpt_keywords = empty($vo['post_keywords'])?"":'已填写'}</td>
+					<td>点击数:{$vo.post_hits}<br>收藏数:{$vo.post_like}<br>评论数:<a href="javascript:open_iframe_dialog('{:U('comment/commentadmin/index',array('post_id'=>$vo['good_id']))}','评论列表')">{$vo.comment_count}</a></td>
+					<td style="width:30px;">{$vo.store_id}</td>
+					<td>{$users[$vo['post_author']]['user_login']}</td>
+					<td style="max-width:85px;">{$vo.post_date}</td>
+					<td style="width:65px;">{$status[$vo['post_status']]}<br>{$top_status[$vo['istop']]}<br>{$recommend_status[$vo['recommended']]}
+					</td>
+					<td style="max-width:50px;">
+						<a href="{:U('AdminGoods/edit',array('category'=>empty($category['ctg_id'])?'':$category['ctg_id'],'good_id'=>$vo['good_id']))}">修改</a> | 
+						<a href="{:U('AdminGoods/delete',array('category'=>empty($category['ctg_id'])?'':$category['ctg_id'],'good_id'=>$vo['good_id']))}" class="J_ajax_del">删除</a>
+					</td>
+				</tr>
+				</foreach>
+				<tfoot>
+					<tr>
+						<th width="15"><label><input type="checkbox" class="J_check_all" data-direction="x" data-checklist="J_check_x"></label></th>
+						<th width="50">排序</th>
+						<th>商品名</th>
+						<th>分类</th>
+						<th>价格</th>
+						<th style="max-width:120px;">套餐信息</th>
+						<th>商品内容</th>
+						<th>关键字</th>
+						<th>数量</th>
+						<th width="30">店铺[ID]</th>
+						<th>发布人</th>
+						<th style="max-width:85px;">发布时间</th>
+						<th>状态</th>
+						<th style="max-width:50px;">操作</th>
+					</tr>
+				</tfoot>
+			</table>
+			<div class="table-actions">
+				<button class="btn btn-primary btn-small J_ajax_submit_btn" type="submit" data-action="{:U('AdminGoods/listorders')}">排序</button>
+				<button class="btn btn-primary btn-small J_ajax_submit_btn" type="submit" data-action="{:U('AdminGoods/check',array('check'=>1))}" data-subcheck="true">审核</button>
+				<button class="btn btn-primary btn-small J_ajax_submit_btn" type="submit" data-action="{:U('AdminGoods/check',array('uncheck'=>1))}" data-subcheck="true">取消审核</button>
+				<button class="btn btn-primary btn-small J_ajax_submit_btn" type="submit" data-action="{:U('AdminGoods/top',array('top'=>1))}" data-subcheck="true">置顶</button>
+				<button class="btn btn-primary btn-small J_ajax_submit_btn" type="submit" data-action="{:U('AdminGoods/top',array('untop'=>1))}" data-subcheck="true">取消置顶</button>
+				<button class="btn btn-primary btn-small J_ajax_submit_btn" type="submit" data-action="{:U('AdminGoods/recommend',array('recommend'=>1))}" data-subcheck="true">推荐</button>
+				<button class="btn btn-primary btn-small J_ajax_submit_btn" type="submit" data-action="{:U('AdminGoods/recommend',array('unrecommend'=>1))}" data-subcheck="true">取消推荐</button>
+				<button class="btn btn-primary btn-small J_ajax_submit_btn" type="submit" data-action="{:U('AdminGoods/delete')}" data-subcheck="true" data-msg="你确定删除吗？">删除</button>
+				<button class="btn btn-primary btn-small J_articles_move" type="button">批量移动</button>
+			</div>
+			<div class="pagination">{$Page}</div>
+
+		</form>
+	</div>
+	<script src="__ROOT__/statics/js/common.js"></script>
+	<script>
+		function refersh_window() {
+			var refersh_time = getCookie('refersh_time');
+			if (refersh_time == 1) {
+				window.location = "{:U('AdminPost/index',$formget)}";
+			}
+		}
+		setInterval(function() {
+			refersh_window();
+		}, 2000);
+		$(function() {
+			setCookie("refersh_time", 0);
+			Wind.use('ajaxForm', 'artDialog', 'iframeTools', function() {
+				//批量移动
+				$('.J_articles_move').click(
+						function(e) {
+							var str = 0;
+							var id = tag = '';
+							$("input[name='good_ids[]']").each(function() {
+								if ($(this).attr('checked')) {
+									str = 1;
+									id += tag + $(this).val();
+									tag = ',';
+								}
+							});
+							if (str == 0) {
+								art.dialog.through({
+									id : 'error',
+									icon : 'error',
+									content : '您没有勾选信息，无法进行操作！',
+									cancelVal : '关闭',
+									cancel : true
+								});
+								return false;
+							}
+							var $this = $(this);
+							art.dialog.open(
+									"__ROOT__/index.php?g=Shop&m=AdminGoods&a=move&good_ids="
+											+ id, {
+										title : "批量移动",
+										width : "80%"
+									});
+						});
+			});
+		});
+	</script>
+</body>
+</html>

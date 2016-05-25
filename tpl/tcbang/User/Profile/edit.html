@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>{$site_name}</title>
+<meta name="keywords" content="{$site_seo_keywords}" />
+<meta name="description" content="{$site_seo_description}">
+<meta name="author" content="ThinkCMF">
+<tc_include file="Public:head" />
+<style>
+.user-container {max-width:1200px;}
+.user-list li a{color:#333;}
+</style>
+</head>
+<body class="body-white" id="top">
+<tc_include file="Public:nav-logo" />
+	<div class="am-container user-container">
+		<div class="am-g">
+			<div class="am-u-sm-3">
+				<tc_include file="Public:usernav"/>
+			</div>
+			<div class="am-u-sm-9">
+				<section class="am-panel am-panel-default">
+					<header class="am-panel-hd">
+						<h3 class="am-panel-title"><a href="#one" data-toggle="tab"><i class="am-icon-list-alt"></i> 修改资料</a></h3>
+					</header>
+					<div class="am-panel-bd">
+						<div class="am-u-md-8 am-u-sm-centered">
+							<form class="am-form am-form-horizontal J_ajaxForm" action="{:u('profile/edit_post')}" method="post">
+								<div class="am-form-group">
+									<label for="input-user_nicename" class="am-u-sm-3 am-form-label">昵称</label>
+									<div class="am-u-sm-9">
+										<input type="text" id="input-user_nicename" name="user_nicename" value="{$user_nicename}">
+									</div>
+								</div>
+								<div class="am-form-group">
+									<label for="input-sex" class="am-u-sm-3 am-form-label">昵称</label>
+									<div class="am-u-sm-9">
+										<php>
+	                                   	$sexs=array("0"=>"保密","1"=>"男","2"=>"女");
+	                                   	</php>
+										<select id="input-sex" name="sex">
+											<foreach name="sexs" item="vo">
+                                   				<php>$sexselected=$key==$sex?"selected":"";</php>
+                                   				<option value="{$key}" {$sexselected}>{$vo}</option>
+                                   			</foreach>
+										</select>
+									</div>
+								</div>
+								<div class="am-form-group">
+									<label for="input-birthday" class="am-u-sm-3 am-form-label">生日</label>
+									<div class="am-u-sm-9">
+										<input class="J_date" type="text" id="input-birthday" placeholder="2013-01-04" name="birthday" value="{$birthday}">
+									</div>
+								</div>
+								<div class="am-form-group">
+									<label for="input-user_url" class="am-u-sm-3 am-form-label">个人网址</label>
+									<div class="am-u-sm-9">
+										<input type="text" id="input-user_url" placeholder="http://thinkcmf.com" name="user_url" value="{$user_url}">
+									</div>
+								</div>
+								<div class="am-form-group">
+									<label for="input-signature" class="am-u-sm-3 am-form-label">个性签名</label>
+									<div class="am-u-sm-9">
+										<textarea id="input-signature" placeholder="个性签名" name="signature">{$signature}</textarea>
+									</div>
+								</div>
+								<div class="am-form-group">
+									<label for="input-signature" class="am-u-sm-3 am-form-label"></label>
+									<div class="am-u-sm-9">
+										<button type="submit" class="am-btn am-btn-success J_ajax_submit_btn">保存</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</section>
+			</div>
+		</div>
+	</div>
+	
+	<tc_include file="Public:footer" />
+	<tc_include file="Public:scripts" />
+</body>
+</html>

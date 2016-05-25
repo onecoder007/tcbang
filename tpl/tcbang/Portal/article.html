@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{$post_title} -{$site_name}</title>
+  <meta name="keywords" content="{$post_keywords}" />
+  <meta name="description" content="{$post_excerpt}">
+  <tc_include file="Public:head" />
+  
+  <link rel="stylesheet" href="__TMPL__Public/css/content.css">
+</head>
+<body>
+<tc_include file="Public:nav-logo" />
+<div class="am-container" style="max-width: 1190px;">
+	<div class="am-g">
+		<div class="am-u-sm-9">
+			<div class="breadcrumbs">
+				<a title="返回首页" href="http://www.tcbang.cn"><i class="am-icon-home"></i></a> <small>&gt;</small> <a href="{:leuu('portal/list/index',array('id'=>$term['term_id']))}">{$term.name}</a> <small>&gt;</small> <span class="muted">{$post_title}</span>
+			</div>
+			<header class="article-header">
+				<h1 class="article-title am-link-muted"><a href="">{$post_title}</a></h1>
+				<div class="meta"> 
+					<span id="mute-category" class="muted"><i class="am-icon-list-alt"></i><a href="{:leuu('portal/list/index',array('id'=>$term['term_id']))}"> {$term.name}</a></span> 
+					<span class="muted"><i class="am-icon-user"></i> <a href="http://www.tcbang.cn">套餐帮</a></span> 
+					<time class="muted"><i class="am-icon-clock-o"></i> {$post_date|substr=0,10}</time> 
+					<span class="muted"><i class="am-icon-eye"></i> {$post_hits}</span> 
+					<span class="muted"><i class="am-icon-thumbs-up"></i> <a href="{:U('article/do_like',array('id'=>$object_id))}" class="J_count_btn">{$post_like}顶</a></span>
+					<span class="muted"><i class="am-icon-star-o"></i> <a href="{:U('user/favorite/do_favorite',array('id'=>$object_id))}" class="J_favorite_btn" data-title="{$post_title}" data-url="{:leuu('article/index',array('id'=>$tid))}" data-key="{:sp_get_favorite_key('posts',$object_id)}">{$post_like}收藏</a></span>
+				</div> 
+			</header>
+			<article class="article">
+				<div class="article-content">
+					{$post_content}
+					<if condition="!empty($smeta['outlink'])">
+						<p style="text-align:center;">
+						<a target="_blank" class="am-btn am-btn-warning" href="{:leuu('portal/article/link',array('code'=>$smeta['outlink']))}">点击查看原文</a><br>
+						</p>
+					</if>
+				</div>
+				<if condition="!empty($post_source)">
+                <div>
+                    <b>注：本文转载自{$post_source}，转载目的在于传递更多信息，并不代表本网赞同其观点和对其真实性负责。如有侵权行为，请联系我们，我们会及时删除。</b>
+                </div>
+				</if>
+			<div>
+				<if condition="!empty($prev)">
+				<div class="am-fl">
+				<a href="{:leuu('article/index',array('id'=>$prev['tid']))}" class="am-btn am-btn-primary am-btn-sm am-fl">上一篇</a>
+				</div>
+				</if>
+				<if condition="!empty($next)">
+				<div class="am-fr am-vertical-align-middle">
+				<a href="{:leuu('article/index',array('id'=>$next['tid']))}" class="am-btn am-btn-success am-btn-sm am-fr">下一篇</a>
+				</div>
+				</if>
+    	        <script type="text/javascript" src="__TMPL__Public/js/qrcode.min.js"></script>
+                <div id="qrcode" style="width: 100px;margin:0 auto"></div>
+					<script type="text/javascript">
+                    var qrcode = new QRCode(document.getElementById("qrcode"), {
+                    width : 100,
+                    height : 100
+                    });
+                    function makeCode () {		
+                    qrcode.makeCode("http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}");
+                    }
+                    makeCode();
+                    </script>
+				<div class="clearfix"></div>
+			</div>
+			
+			<div class="article-social"> 
+				<a href="{:U('article/do_like',array('id'=>$object_id))}" id="Addlike" class="action J_count_btn">
+					<i class="am-icon-heart-o"></i>喜欢 (<span class="count">{$post_like}</span>)
+				</a>
+				<span class="or">or</span>
+				<a class="action" data-am-modal="{target: '#doc-modal-1'}">
+					<i class="am-icon-share-alt"></i>分享 (<span class="bds_count" data-cmd="count" title="累计分享0次">0</span>)
+				</a>
+				<div class="am-modal am-modal-no-btn" tabindex="-1" id="doc-modal-1">
+					<div class="am-modal-dialog">
+						<div class="am-modal-hd">分享
+							<a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+						</div>
+						<div class="am-modal-bd">
+							<div class="bdsharebuttonbox bdshare-button-style2-32 am-text-middle" data-bd-bind="1439396656225"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			</article>
+			
+			<nav class="article-nav am-link-muted"> 
+				<span class="article-nav-prev">
+					<i class="am-icon-angle-double-left"></i> 
+					<if condition="!empty($prev)">
+					<a href="{:leuu('article/index',array('id'=>$prev['tid']))}" rel="prev"> {$prev.post_title}</a>
+					<else/>
+					前面没有文章
+					</if>
+				</span> 
+				<span class="article-nav-next">
+					<if condition="!empty($next)">
+					<a href="{:leuu('article/index',array('id'=>$next['tid']))}" rel="next"> {$next.post_title}</a> 
+					<else/>
+					后面没有文章
+					</if>
+					<i class="am-icon-angle-double-right"></i>
+				</span> 
+			</nav>
+		    
+			<div class="at-like xw-border-shadow">
+				<h3 class="border-left-green am-text-default xw-text-gray">
+					<i class="am-icon-check"></i> 猜你喜欢：
+				</h3>
+				<div class="relates">
+				<php>
+				$key_array = explode(' ',$post_keywords);
+				$userdata = array('0'=>'%','1'=>'%');
+				array_walk($key_array,'xw_callback_array_valueadd',array('0'=>'%','1'=>'%'));
+				$map['post_keywords'] = array('like',$key_array,'OR');
+				$map['post_status'] = 1;
+				$map['object_id'] = array('neq',$object_id);
+				$guess_posts = sp_sql_posts("field:tid,object_id,post_title;order:post_hits desc,post_date desc;limit:6;",$map);
+				</php>
+					<ul>
+						<foreach name="guess_posts" item="gp">
+						<li><i class="am-icon-minus"></i><a href="{:leuu('portal/article/index',array('id'=>$gp['tid']))}">{$gp.post_title}</a></li>
+						</foreach>
+					</ul>
+				</div>
+				<php>
+$hot_where['g_status'] = 1;
+$hot_where['goods_count'] = 2;
+$hot_goods=sp_sql_goods("field:good_id,mid,sex_id,goods_name,price,meal_price,img,kuaidi,meal_kuaidi,post_hits;order:post_hits desc;limit:3;where:goods_count=2;",$hot_where); 
+/*信息处理*/
+		for($i=0; $i<3; $i++){
+			$hot_goods[$i]['goods_name'] = explode("|**|",$hot_goods[$i]['goods_name']);
+			array_pop($hot_goods[$i]['goods_name']);
+			$hot_goods[$i]['img'] = explode("|**|",$hot_goods[$i]['img']);
+			array_pop($hot_goods[$i]['img']);
+			
+			$hot_goods[$i]['price'] = json_decode($hot_goods[$i]['price']);
+			$hot_goods[$i]['kuaidi'] = json_decode($hot_goods[$i]['kuaidi']);
+		}
+/*处理结束*/
+$mall = array("0"=>"","1"=>"淘宝","2"=>"天猫","3"=>"京东");
+				</php>
+				<foreach name="hot_goods" item="gd">
+				<div class="am-u-sm-4">
+					<div class="am-margin-top-sm">
+						<a href="{:leuu('Shop/article/index',array('id'=>$gd['good_id']))}" class="am-link-muted">
+							<div class="am-text-truncate at-good-item">
+								<img src="{$gd['img'][0]}" class="am-img-responsive" alt="{$gd['goods_name'][0]}" />
+								{$gd['goods_name'][0]}
+							</div>
+							<div class="am-text-truncate at-good-item">
+								<img src="{$gd['img'][1]}" class="am-img-responsive" alt="{$gd['goods_name'][1]}" />
+								{$gd['goods_name'][1]}
+								</div>
+						</a>
+						<div class="at-good-price">
+							<p class="price-a1">
+								<span class="am-badge am-radius xw-badge-default">￥{$gd['price'][0]}</span>+<span class="am-badge am-radius xw-badge-default">￥{$gd['price'][1]}</span><br>
+								立省:￥{$gd['price'][0]+$gd['price'][1]-$gd['meal_price']}
+							</p>
+							<p class="price-a2">
+								<span class="am-text-xs">套装价：</span><br>
+								￥ <b class="am-text-warning">{$gd['meal_price']}</b>
+							</p>
+							<div class="am-cf"></div>
+						</div>
+						<div  class="at-good-remark am-cf">
+							<span class="am-fl"><i class="am-icon-eye"></i> 浏览：<b>{$gd['post_hits']}</b></span>
+							<span class="am-fr">[ <a href="{:leuu('Shop/article/index',array('id'=>$gd['good_id']))}">详情</a> ]</span>
+						</div>
+						<div class="am-cf"></div>
+					</div>
+				</div>
+				</foreach>
+				<div class="am-cf"></div>
+				
+			</div>
+			
+			{:Comments("posts",$object_id)}
+				
+		</div>
+		<div class="am-u-sm-3">
+			<div class="sidebar xw-border-shadow">
+				<div class="social">
+					<div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a></div>
+					<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"32"},"share":{},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["weixin","tsina","qzone","tqq","sqq"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+				</div>
+			</div>
+			
+			<div class="sidebar am-padding-xs xw-border-shadow">
+				<form action="{:U('portal/search/index')}" method="post">
+				<div class="am-input-group">
+					<input type="text" class="am-form-field" name="keyword" value="{:I('get.keyword')}" placeholder="这里搜索文章">
+					<span class="am-input-group-btn">
+						<button class="am-btn am-btn-default" type="submit"><span class="am-icon-search"></span></button>
+					</span>
+				</div>
+				</form>
+			</div>
+		
+			<div class="sidebar d_postlist xw-border-shadow">
+				<div class="s-title">
+					<h2>热门文章</h2>
+				</div>
+				<php>
+					$portal_index_lastnews = $term['term_id'];
+					$hot_articles=sp_sql_posts("cid:$portal_index_lastnews;field:post_title,post_excerpt,tid,smeta,post_date,post_hits;order:post_hits desc;limit:5;"); 
+				</php>
+				<ul class="nopic">
+					<foreach name="hot_articles" item="vo">
+					<php>$top=$key<3?"top3":"";</php>
+					<li class="{$top}"><a href="{:leuu('article/index',array('id'=>$vo['tid']))}" title="{$vo.post_title}"><span class="text"><i class="am-badge am-radius am-badge-warning">{$key+1}</i> {$vo.post_title}</span><span class="muted">{$vo.post_date|substr=0,10}</span><span class="muted">{$vo.post_hits}浏览</span></a></li>
+					</foreach>
+				</ul>
+			</div>
+			
+			<div class="sidebar xw-border-shadow">
+	        	<div class="s-title">
+	        		<h2>最新评论</h2>
+	        	</div>
+	        	<div class="comment-ranking am-text-sm am-padding-horizontal-sm">
+	        		<php>$last_comments=sp_get_comments("field:*;limit:0,5;order:createtime desc;");
+					</php>
+	        		<foreach name="last_comments" item="vo">
+	                    <div class="comment-ranking-inner am-animation-fade am-padding-xs">
+	                        <i class="am-icon-comment"></i>
+	                        <a href="{:U('user/index/index',array('id'=>$vo['uid']))}">{$vo.full_name}:</a>
+	                        <span>{$vo.content}</span><br>
+	                        <a href="__ROOT__/{$vo.url}#comment{$vo.id}">查看原文</a>
+	                        <span class="comment-time am-fr">{:date('m月d日  H:i',strtotime($vo['createtime']))}</span>
+	                    </div>
+                    </foreach>
+                </div>
+			</div>
+        	
+		</div>
+		
+	</div>
+              
+
+</div>
+<tc_include file="Public:footer"/>
+<tc_include file="Public:scripts"/>
+<if condition="$post_status == 1">
+<script>
+(function(){
+    var bp = document.createElement('script');
+    bp.src = '//push.zhanzhang.baidu.com/push.js';
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+</if>
+</body>
+</html>

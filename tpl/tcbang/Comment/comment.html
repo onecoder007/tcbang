@@ -1,0 +1,92 @@
+<div class="comment-div">
+	<h3>
+		<i class="am-icon-comment-o"></i> 评论：
+	</h3>
+	<div class="comment-area" id="comments">
+		<script class="comment-tpl" type="text/html">
+			<div class="comment" data-username="{$user.user_nicename}" data-uid="{$user.id}">
+			<div class="am-u-sm-1 am-padding-horizontal-sm">
+			<a href="{:U('user/index/index',array('id'=>$user['id']))}">
+				<img class="am-img-responsive am-img-bdrs headicon" src="{:U('user/public/avatar',array('id'=>$user['id']))}"/>
+			</a>
+			</div>
+			<div class="comment-body am-u-sm-11">
+				<div class="comment-content"><a href="{:U('user/index/index',array('id'=>$user['id']))}">{$user.user_nicename}</a>：<span class="content"></span></div>
+				<div><span class="time">刚刚</span> <a onclick="comment_reply(this);" href="javascript:;"><i class="am-icon-comment-o"></i></a></div>
+			</div>
+			<div class="am-cf"></div>
+			</div>
+		</script>
+		
+		<script class="comment-reply-box-tpl" type="text/html">
+			<div class="comment-reply-submit">
+                <div class="comment-reply-box am-form">
+                    <input type="text" class="am-input-sm textbox" placeholder="回复">
+                </div>
+                <button class="am-btn am-fl am-btn-sm" onclick="comment_submit(this);">回复</button>
+            </div>
+		</script>
+		
+		<hr>
+		
+		<div class="comments">
+		<php>
+		if(empty($comments)){echo "<p style=\"text-align:center;color:#999;\">还没有人评论~来抢个沙发吧！</p>";}
+		</php>
+		<foreach name="comments" item="vo">
+	 	<div class="comment" data-id="{$vo.id}" data-uid="{$vo.uid}" data-username="{$vo.full_name}"  id="comment{$vo.id}">
+			<div class="am-u-sm-1 am-padding-horizontal-sm">
+				<a href="{:U('user/index/index',array('id'=>$vo['uid']))}">
+					<img class="am-img-responsive am-img-bdrs headicon" src="{:U('user/public/avatar',array('id'=>$vo['uid']))}" />
+				</a>
+			</div>
+			<div class="comment-body am-u-sm-11">
+		    <div class="comment-content"><a href="{:U('user/index/index',array('id'=>$vo['uid']))}">{$vo.full_name}</a>：<span>{$vo.content}</span></div>
+		    <div><span class="time">{:date('m月d日  H:i',strtotime($vo['createtime']))}</span> <a onclick="comment_reply(this);" href="javascript:;"><i class="am-icon-comment-o"></i></a></div>
+		    
+		    <if condition="!empty($vo['children'])">
+		    	<foreach name="vo.children" item="voo">
+			    	<div class="comment" data-id="{$voo.id}" data-uid="{$voo.uid}" data-username="{$voo.full_name}" id="comment{$voo.id}">
+						<div class="am-u-sm-1 am-padding-horizontal-xs">
+						<a class="pull-left" href="{:U('user/index/index',array('id'=>$voo['uid']))}">
+							<img class="am-img-responsive am-img-bdrs headicon" src="{:U('user/public/avatar',array('id'=>$voo['uid']))}" />
+						</a>
+						</div>
+						<div class="comment-body am-u-sm-11">
+					    <div class="comment-content"><a href="{:U('user/index/index',array('id'=>$voo['uid']))}">{$voo.full_name}</a>：<span>回复 <a href="{:U('user/index/index',array('id'=>$voo['to_uid']))}">{$parent_comments[$voo['parentid']]['full_name']}</a> {$voo.content}</span></div>
+							<div><span class="time">{:date('m月d日  H:i',strtotime($voo['createtime']))}</span> <a onclick="comment_reply(this);" href="javascript:;"><i class="am-icon-comment-o"></i></a></div>
+						</div>
+						<div class="am-cf"></div>
+					</div>
+				</foreach>
+			</if>
+		    
+		    
+			</div>
+			<div class="am-cf"></div>
+		</div>
+		</foreach>
+		</div>
+		
+		<hr>
+		
+		<form class="form-horizontal comment-form am-form" action="{:u('comment/comment/post')}" method="post">
+			<div class="am-form-group">
+				<div class="comment-postbox-wraper">
+				<textarea class="form-control comment-postbox" placeholder="写下你的评论" style="min-height:90px;"  name="content"></textarea>
+				</div>
+			</div>
+	  
+			<div class="am-form-group">
+				<button type="submit" class="am-btn am-btn-sm am-btn-primary J_ajax_submit_btn"><i class="am-icon-comment-o"></i> 发表评论</button>
+			</div>
+	  
+			<input type="hidden" name="post_table" value="{$post_table}"/>
+			<input type="hidden" name="post_id" value="{$post_id}"/>
+			<input type="hidden" name="to_uid" value="0"/>
+			<input type="hidden" name="parentid" value="0"/>
+		</form>
+		
+	</div>
+
+</div>

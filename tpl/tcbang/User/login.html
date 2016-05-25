@@ -1,0 +1,90 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <title>{$site_seo_title} {$site_name}</title>
+  <meta name="keywords" content="{$site_seo_keywords}" />
+  <meta name="description" content="{$site_seo_description}">
+  <tc_include file="Public:head" />
+  <style>
+body {background-color:#fdfbfe;}
+.layout { width: 1050px; margin: 20px auto;}
+.header { overflow: hidden; zoom: 1; margin-bottom: 44px;}
+.header h1 {margin:0; font-size:36px; color:#1ABC9C; font-family:"微软雅黑";}
+.header a em {font-size:20px; color:#1ABC9C; font-weight:bolder;}
+.header a span {color:#000;}
+.header .inner-icon {width:487px; height:28px; margin-top:60px; background:url('__TMPL__Public/images/shangbiao.png'); float:right;}
+.loginForm {margin-top:2.0rem;}
+.login-content {background:url('__TMPL__Public/images/test.jpg');}
+  </style>
+  
+</head>
+<body>
+
+<div class="layout am-g">
+  <div class="header">
+	<div class="am-u-sm-5">
+		<a href="__ROOT__"><h1>套餐帮</h1>
+		<em>Tcbang.cn</em> 　<span>一家专门收集全网电商套餐的网站</span></a>
+	</div>
+	<div class="inner-icon"></div>
+  </div>
+  <div class="login-content">
+	<div class="loginForm am-fr am-u-sm-5">
+		<form class="am-form J_ajaxForm am-form-horizontal" action="{:U('user/login/dologin')}" method="post">
+			<fieldset>
+				<legend>用户登录</legend>
+				<div class="am-form-group">
+					<label for="input_username" class="am-u-sm-3 am-form-label">账户	</label>
+					<div class="am-u-sm-9">
+						<input type="text" id="input_username" name="username" class="am-form-field am-radius" placeholder="请输入你的账户名/电子邮件">
+					</div>
+				</div>
+				<div class="am-form-group">
+					<label for="input_password" class="am-u-sm-3 am-form-label">密码	</label>
+					<div class="am-u-sm-9">
+						<input type="password" id="input_password" name="password" class="am-form-field am-radius" placeholder="请输入密码">
+					</div>
+				</div>
+				<div class="am-form-group">
+					<label for="input_verify" class="am-u-sm-3 am-form-label">验证码 </label>
+					<div class="am-u-sm-5">
+						<input type="text" id="input_verify" name="verify" class="am-form-field am-radius" placeholder="请输入验证码">
+					</div>
+					<div class="am-u-sm-4">
+						{:sp_verifycode_img('length=4&font_size=15&width=100&height=35&charset=1234567890')}
+					</div>
+				</div>
+				<div class="am-form-group">
+					<div class="am-u-sm-9 am-u-sm-offset-3 am-text-sm">
+						<button type="submit" class="am-btn am-btn-success J_ajax_submit_btn">登录</button>
+					</div>
+				</div>
+				<div class="am-form-group">
+					<div class="am-u-sm-9 am-u-sm-offset-3 am-text-sm">
+						<label>
+							<input type="checkbox" name="terms" value="1" checked> 我同意 <a href="#" class="am-link-muted">网站内容服务条款</a>
+						</label><br>
+						<a href="{:U('user/login/forgot_password')}">忘记密码？</a> | <a href="{:U('user/register/index')}">免费注册</a>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+		<div class="">
+			
+		</div>
+	</div>
+	<div class="am-cf"></div>
+  </div>
+</div>
+
+<tc_include file="Public:footer" />
+
+<tc_include file="Public:scripts" />
+
+
+<!--<![endif]-->
+<!--[if lte IE 8 ]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<![endif]-->
+</body>
+</html>

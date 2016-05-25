@@ -1,0 +1,124 @@
+/* Write your styles */
+body {background-color: rgb(238, 238, 238);}/*F5F5F5*/
+.top {background:#f3726d;}
+
+.top-logo a {display:block; width:177px; height:111px; background:url(../images/top-logo.png) no-repeat left center; text-indent: -999em;}
+.top-user, .top-user a {color:#FFF;}
+.top-user a:hover {text-decoration: underline;}
+
+.top-formdiv {margin-top:3%;}
+.top-formdiv p {color:#FFF;}
+.top-input {max-width:160px; background:#f3726d; border:1px solid #FFF;}
+.top-btn {background:#f3726d; border:1px solid #FFF; color:#FFF;}
+.top-btn:hover {background:#333; color:#FFF; border:1px solid #333;}
+
+.hide { display: none;}
+
+.xw-success {color: #16A085;}
+.xw-container {max-width: 899px;}
+.xw-content-fixed {max-width: 1290px;}
+
+.xw-btn-white {background:#FFF; color:#999; border-color: #e6e6e6;}
+.xw-btn-white:hover {background:#333; border:1px solid #333; color:#FFF;}
+.xw-btn-default {color: #333; background-color: #fff; border-color: #ccc;}
+.xw-btn-green {color: #444; background-color: #FFF; border-color: #1ABC9C;}
+
+.xw-li-space li { margin-top: 8px;}
+.xw-link-muted a {color: #333; font-weight:normal;}
+.xw-link-muted a:hover {color: #BE2924;}
+.xw-text-white {color:#FFF}
+.xw-text-green {color:#1ABC9C;}
+.xw-text-gray {color:#999;}
+.xw-line-sm {line-height: 20px;}
+.xw-clean-margin {margin: 0px;}
+.xw-text-xs {font-size: 1.0rem;}
+
+.xw-text-remark-color {color:#CCCCCC; font-weight:normal;}
+
+.xw-text-left {text-align:left;}
+.xw-text-grey {color:#999;}
+
+.xw-text-white {color: #fff !important;}
+.xw-text-link {color:#333;}
+.xw-text-link:hover {color:#f3726d;}
+.xw-text-muted {color: #b6bfc5;}
+.xw-text_gray {color: slategrey;}
+.xw-bold-md { font-weight: 600;}
+.xw-bold {font-weight: bold;}
+
+.xw-img-border {border:1px solid #BDC3C7;}
+
+.xw-bg-rgba {background:rgba(0,0,0,0.2);}
+
+.xw-border-shadow {border-radius: 3px;  box-shadow: 0 1px 3px rgba(0,0,0,0.2);}
+
+.xw-badge-default {background:#FFF; color:#7F8C8D; border:1px solid #7F8C8D;}
+
+.xw-line-div {width:100%; height:1px; background:#bdc3c7;}
+/*====== nav 样式   =======*/
+.topnav {opacity: 0.9; background:#FFF; box-shadow: 0 0 5px #BCBCBC;}
+.topnav ul li a:hover {color:#f4645f; background:#FFF;}
+.am-topbar-nav>li>a:hover:after {border-bottom-color: #f4645f;}
+
+.nav-logo .xw-container {max-width:1190px;}
+.am-topbar .am-text-ir {
+  display: block;
+  margin-right: 10px;
+  height: 50px;
+  width: 175px;
+  background: url(../images/navlogo.png) no-repeat left center;
+  -webkit-background-size: 145px 49px;
+  background-size: 145px 49px;
+}
+
+/*====== slide-bar 样式   =======*/
+.slidebar { margin-left:-10px;}
+.slidebar-top, .slidebar-2, .slidebar-bottom {background:#FFF;}
+.slidebar-top {background: #f3726d;}
+.slidetop-height {height:3px; overflow:hidden;}
+.slidebar-2 {border-bottom: 1px solid #DDDDDD; padding-bottom: 10px; font-size: 1.4rem;}
+
+/*====== contents 样式   =======*/
+.contents 			{}
+/*瀑布流框架样式*/
+.grid 				{padding: 0; margin: 0;}
+/* 1 columns by default */
+.grid-item 			{ width:100%; }
+@media screen and (min-width: 728px) and (max-width: 1220px) {
+/* 2 columns for larger screens */
+.grid-item 			{ width:50%; }
+}
+@media screen and (min-width:1220px) {
+/* 3 columns for larger screens */
+.grid-item 			{ width:33.333%; }
+}
+.grid-item 			{float: left; padding: 1rem;}
+.grid-item-child 	{background: #FFFFFF; padding: 5px; border-radius: 3px; border: solid 1px #BCBCBC; box-shadow: 0 0 10px #BCBCBC;}
+/*内其他元素*/
+.item-price 		{padding: 0px; text-align: center; border-top: solid 1px #DBDBDB;}
+.item-price-em 		{font: 40px/50px Arial;}
+.item-button 		{border-top: solid 1px #DBDBDB;}
+.item-remark 		{padding: 0px; border-top: solid 1px #DBDBDB;}
+.item-img 			{padding: 2px;}
+
+/*======== 评论样式 ========*/
+.comment-div {margin-top:2.0rem; padding:2.0rem 1.0rem 1.0rem 0; border-radius: 3px; background:#FFF; box-shadow: 0 1px 3px rgba(0,0,0,0.2);}
+.comment-div h3 {border-left:5px solid #16A085; padding-left:10px; color:#999;}
+
+/*最新评论*/
+.comment-ranking {padding-bottom:15px; color:#999;}
+.comment-ranking-inner {background:#fafafa; margin-bottom:10px; border:1px solid #fafafa;
+transition:all 0.8s;
+-moz-transition:all 0.8s; /* Firefox 4 */
+-webkit-transition:all 0.8s; /* Safari and Chrome */
+-o-transition:all 0.8s; /* Opera */
+}
+.comment-ranking-inner:hover {background:#f0f0f0; border:1px solid #1ABC9C;}
+
+/*======== 页脚样式 ========*/
+  .footer {background:#FFF; border-top:3px solid #f3726d; }
+  .footer .area {max-width:980px; text-align:center;}
+  .footer-bottom {background:#2d3e50;}
+  .footer-bottom p { color: #7f8c8d; margin: 0; padding: 15px 0; text-align: center; background: #2d3e50;}
+  
+  .friend-link {margin:10px 0 0 5px; border-top:1px solid #eaeaea; padding:10px 0 0 0;}

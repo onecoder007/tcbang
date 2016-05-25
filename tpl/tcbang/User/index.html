@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>{$site_name}</title>
+<meta name="keywords" content="{$site_seo_keywords}" />
+<meta name="description" content="{$site_seo_description}">
+<meta name="author" content="ThinkCMF">
+<tc_include file="Public:head" />
+<style>
+.control-label{
+	font-weight: bold;
+	float: left;
+	width: 70px;
+}
+</style>
+</head>
+<body class="body-white" id="top">
+	<tc_include file="Public:nav-logo" />
+
+		<div class="am-container user-container">
+            <div class="am-g">
+                
+                <div class="tabs am-u-sm-offset-2 am-u-sm-8">
+					<section class="am-panel am-panel-default">
+						<header class="am-panel-hd">
+							<h3 class="am-panel-title"><a href="#one" data-toggle="tab"><i class="am-icon-list-alt"></i> 用户</a></h3>
+						</header>
+					</section>
+				
+                               <!-- <ul class="nav nav-tabs">
+                                   <li class="active"><a href="#one" data-toggle="tab"><i class="fa fa-list-alt"></i>个人中心</a></li>
+                               </ul> -->
+                               <div class="am-panel-bd">
+                                   		<div class="am-u-sm-3">
+						                	<a href="javascript:;">
+						                	<if condition="empty($avatar)">
+								            <img src="__TMPL__/Public/images/headicon_128.png" class="headicon"/>
+								            <else/>
+								            <img src="{:sp_get_user_avatar_url($avatar)}" class="headicon"/>
+								            </if>
+								          	</a>
+							          	</div>
+							          	<div class="am-u-sm-9">
+											<table class="am-table am-table-hover">
+												<tbody>
+													<tr>
+														<td>昵称</td>
+														<td>{$user_nicename|default='未填写'}</td>
+													</tr>
+													<tr>
+														<td>性别</td>
+														<td><php>
+															$sexs=array("0"=>"保密","1"=>"男","2"=>"女");
+                                   			
+															</php>
+															{$sexs[$sex]}
+														</td>
+													</tr>
+													<tr>
+														<td>生日</td>
+														<td>{$birthday|default='未填写'}</td>
+													</tr>
+													<tr>
+														<td>个人签名</td>
+														<td>{$signature|default='未填写'}</td>
+													</tr>
+													<tr>
+														<td>QQ</td>
+														<td>{$user_url|default='未填写'}</td>
+													</tr>
+													<tr>
+														<td>个人签名</td>
+														<td>{$signature|default='未填写'}</td>
+													</tr>
+												</tbody>
+											</table>
+					               		</div>
+										<div class="am-cf"></div>
+                               </div>							
+                 </div>
+                </div>
+
+		<tc_include file="Public:footer" />
+
+	</div>
+	<!-- /container -->
+
+	<tc_include file="Public:scripts" />
+</body>
+</html>
